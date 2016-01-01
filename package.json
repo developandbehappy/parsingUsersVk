@@ -1,0 +1,28 @@
+{
+  "name": "zidein07",
+  "version": "1.0.0",
+  "description": "The dev angular",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zidein07/hackerNewsBackbone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zidein07/hackerNewsBackbone/issues"
+  },
+  "homepage": "https://github.com/zidein07/hackerNewsBackbone#readme",
+  "dependencies": {
+    "browser-sync": "^2.10.1",
+    "eslint": "^1.10.3",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-jscs": "^3.0.2",
+    "jscs": "^2.7.0"
+  },
+  "devDependencies": {}
+}

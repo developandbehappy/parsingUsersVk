@@ -1,0 +1,25 @@
+{
+  "name": "AngularStart",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zidein07/AngularStart",
+  "authors": [
+    "zidein07 <zidein07@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-local-storage": "~0.2.3",
+    "angular-route": "~1.4.8",
+    "angular-translate": "~2.8.1",
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.1.4"
+  }
+}

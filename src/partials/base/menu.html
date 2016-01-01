@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default" ng-controller="MenuCtrl">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-6"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/#/">ApiVk</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+            <ul class="nav navbar-nav">
+                <li ng-class="{ active: isActive('/')}"><a href="/#/">Home</a></li>
+                <li ng-class="{ active: isActive('/about')}"><a href="/#/about">About</a></li>
+            </ul>
+            <div class="navbar-form navbar-right">
+                <translate-select></translate-select>
+            </div>
+        </div>
+    </div>
+</nav>

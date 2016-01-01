@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="vkApp" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular start</title>
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="src/style/style.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div ng-include="'src/partials/base/menu.html'"></div>
+    </div>
+    <div class="content">
+        <div ng-view></div>
+    </div>
+</div>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/vendor/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/vendor/angular/angular.js"></script>
+<script src="/vendor/angular-translate/angular-translate.js"></script>
+<script src="/vendor/angular-route/angular-route.js"></script>
+<script src="/vendor/angular-local-storage/dist/angular-local-storage.js"></script>
+<script src="/src/app.js"></script>
+<script src="/src/router/router.js"></script>
+<script src="/src/factory/translateStorage.factory.js"></script>
+<script src="/src/config/translate.js"></script>
+<script src="/src/controllers/base/menuCtrl.js"></script>
+<script src="/src/controllers/aboutCtrl.js"></script>
+<script src="/src/controllers/homeCtrl.js"></script>
+<script src="/src/directive/translate-select.directive.js"></script>
+</body>
+</html>
