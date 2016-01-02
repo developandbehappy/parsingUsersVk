@@ -27,6 +27,10 @@ vkApp.factory('vkApiService', function ($http) {
     execute: function (params, token) {
       var url = this.buildLink('execute', params, token);
       return $http.get(url);
+    },
+    likesGetList: function (params, token) {
+      var url = this.buildLink('likes.getList', params, token);
+      return $http.get(url);
     }
   }
 });
