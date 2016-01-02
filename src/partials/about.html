@@ -3,9 +3,9 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="{{ 'WALL_PARSER' | translate}} " id="getIdWall">
+            <input type="text" class="form-control" ng-model="groupId" placeholder="{{ 'WALL_PARSER' | translate}} " id="getIdWall">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="searchData">{{ 'GO_SEARCH' | translate}}</button>
+                    <button class="btn btn-default" ng-click="searchBtnHandler()" type="button" id="searchData">{{ 'GO_SEARCH' | translate}}</button>
                 </span>
         </div>
     </div>
