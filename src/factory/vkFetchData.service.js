@@ -24,7 +24,6 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           return false;
         }
         var dataForRequest = vkScriptRequestList.splice(0, streamCount);
-        console.log('dataForRequest', dataForRequest);
         var vkScriptCode = "return [" + dataForRequest.join() + "];";
         vkApiService.execute({
           code: vkScriptCode
@@ -84,7 +83,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       }
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
-          deferred.resolve(arrData);
+          deferred.resolve(finishResponseFilter(arrData));
           return false;
         }
         var dataForRequest = vkScriptRequestList.splice(0, streamCount);
@@ -102,10 +101,14 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         });
       };
       getData();
+      var finishResponseFilter = function (list) {
+        return list.reduce(function (previousValue, currentItem) {
+          return previousValue.concat(currentItem);
+        });
+      };
       return deferred.promise;
     },
     fetchPostLikeData: function (wallDataList) {
-//      debugger;
       var arrDataUsersLike = wallDataList;
       console.log('arrDataUsersLike.length', arrDataUsersLike.length);
       var deferred = $q.defer();
@@ -144,6 +147,11 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         });
       };
       go();
+      var finishResponseFilter = function (list) {
+        var wallDataResult = list.reduce(function (previousValue, currentItem) {
+          return previousValue.concat(currentItem);
+        });
+      };
       return deferred.promise;
     }
   }

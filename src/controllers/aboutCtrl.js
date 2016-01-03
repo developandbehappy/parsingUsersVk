@@ -4,9 +4,7 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     var idWall = $scope.groupId;
     var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     var fetchPostLikeDataPromise = fetchWallData.then(function (response) {
-      console.log('qq', response);
-
-//      return vkFetchDataService.fetchPostLikeData(wallDataResult.slice(0, 3));
+      return vkFetchDataService.fetchPostLikeData(response.slice(0, 3));
     }, function (error) {
       console.log('error', error);
       return false;
