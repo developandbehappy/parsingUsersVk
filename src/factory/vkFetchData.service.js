@@ -1,7 +1,3 @@
-var postItem = function () {
-
-};
-
 vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
   return {
     fetchWallData: function (groupId, postsSize, streamCount) {
@@ -148,10 +144,6 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       var self = this;
       var go = function () {
         if (arrDataUsersLike.length === 0) {
-          deferred.notify({
-            type: 'complete',
-            data: arrDataResult
-          });
           deferred.resolve(arrDataResult);
           return false;
         }
@@ -166,16 +158,23 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
             response: response
           };
           arrDataResult.push(tempData);
-          deferred.notify({
+          var notifyData = finishNotifyFilter({
             type: 'temp',
             data: tempData
           });
+          deferred.notify(notifyData);
           setTimeout(function () {
             go();
           }, 400);
         });
       };
       go();
+      var finishNotifyFilter = function (opt) {
+        return {
+          count: _.size(opt.data.response)
+        };
+      };
+
       return deferred.promise;
     }
   }

@@ -3,15 +3,11 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
   $scope.showloadingStats = false;
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
-//  setInterval(function () {
-//    $scope.totalPost++;
-//    $scope.$apply();
-//    console.log(",,,,,,,");
-//  }, 500);
+  $scope.totalPeople = 0;
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 500, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     $scope.showloadingStats = true;
     var fetchPostLikeDataPromise = fetchWallData.then(function (response) {
       return vkFetchDataService.fetchPostLikeData(response);
@@ -20,8 +16,8 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
       return false;
     }, function (notify) {
       console.log('notify', notify);
-      $scope.totalPost = ($scope.totalPost + notify.postCount);
-      $scope.totalLikes = ($scope.totalLikes + notify.likesCount);
+      $scope.totalPost = formatNumber($scope.totalPost, notify.postCount);
+      $scope.totalLikes = formatNumber($scope.totalLikes, notify.likesCount);
       return false;
     });
 
@@ -30,7 +26,11 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     }, function (error) {
 
     }, function (notify) {
-      console.log('notify', notify);
+      if (!notify) {
+        return false;
+      }
+      console.info('notify.count', notify);
+      $scope.totalPeople = formatNumber($scope.totalPeople, notify.count);
     });
   };
 
@@ -38,6 +38,17 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     $scope.showloadingStats = false;
     $scope.totalPost = 0;
     $scope.totalLikes = 0;
+  };
+  var replaceAll = function (str, s, r) {
+    return str.toString().split(s).join(r);
+  };
+  var formatNumber = function (prevVal, currentVal) {
+    console.log('prevVal', prevVal);
+    prevVal = replaceAll(prevVal, ' ', '');
+    prevVal = parseInt(prevVal);
+    console.log('prevVal', prevVal);
+    var num = currentVal + prevVal;
+    return accounting.formatNumber(num, 0, " ");
   };
 //  var getLengthPosts = function (groupId) {
 //    var countMax = 0;
