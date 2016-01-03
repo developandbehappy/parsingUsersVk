@@ -11,11 +11,12 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
             groupId: item.from_id
           });
       });
-      var postId = postIdList[0].postId;
-      var groupId = postIdList[0].groupId;
-      vkFetchDataService.fetchLikesData(groupId, postId, 10000, 20).then(function (response) {
-        console.log('response', response);
-      });
+      vkFetchDataService.fetchPostLikeData(postIdList);
+//      var postId = postIdList[0].postId;
+//      var groupId = postIdList[0].groupId;
+//      vkFetchDataService.fetchLikesData(groupId, postId, 10000, 20).then(function (response) {
+//        console.log('response', response);
+//      });
     });
   };
   var getLengthPosts = function (groupId) {
