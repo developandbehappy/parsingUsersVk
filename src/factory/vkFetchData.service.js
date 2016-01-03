@@ -20,21 +20,48 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       console.log('vkScriptRequestList', vkScriptRequestList.length);
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
-          deferred.resolve(arrData);
+          deferred.resolve(finishResponseFilter(arrData));
           return false;
         }
         var dataForRequest = vkScriptRequestList.splice(0, streamCount);
+        console.log('dataForRequest', dataForRequest);
         var vkScriptCode = "return [" + dataForRequest.join() + "];";
         vkApiService.execute({
           code: vkScriptCode
         }).then(function (response) {
+          console.log('response', response);
+          var nextStep = true;
           response.data.response.map(function (item) {
-            arrData.push(item.splice(1));
+            var itemSize = _.size(item);
+            if (itemSize > 1) {
+              arrData.push(item.splice(1));
+            } else {
+              nextStep = false;
+            }
           });
-          getData();
+          if (nextStep) {
+            getData();
+          } else {
+            deferred.resolve(finishResponseFilter(arrData));
+            return false;
+          }
         });
       };
       getData();
+      var finishResponseFilter = function (list) {
+        var wallDataResult = list.reduce(function (previousValue, currentItem) {
+          return previousValue.concat(currentItem);
+        });
+        return wallDataResult.map(function (item) {
+          return {
+            postId: item.id,
+            groupId: item.from_id,
+            likeCount: item.likes.count,
+            repostCount: item.reposts.count,
+            commentCount: item.comments.count
+          };
+        });
+      };
       return deferred.promise;
     },
     fetchLikesData: function (groupId, postItemId, likeSize, streamCount) {
