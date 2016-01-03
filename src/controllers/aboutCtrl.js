@@ -1,6 +1,6 @@
 vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
-  $scope.groupId = '-74598451';
-//  $scope.groupId = '80651295'; // zd
+//  $scope.groupId = '-74598451';
+  $scope.groupId = '80651295'; // zd
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
@@ -13,7 +13,7 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     $scope.showloadingStats = true;
     var fetchPostLikeDataPromise = fetchWallData.then(function (response) {
-      console.log('response', response);
+//      console.log('response', response);
       return vkFetchDataService.fetchLikesDataLess1k(response, 23);
     }, function (error) {
       console.log('error', error);
@@ -36,7 +36,7 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
       if (!notify) {
         return false;
       }
-      $scope.totalPeople = formatNumber($scope.totalPeople, notify.count);
+      $scope.totalPeople = formatNumber($scope.totalPeople, notify);
     });
   };
 
@@ -44,6 +44,7 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     $scope.showloadingStats = false;
     $scope.totalPost = 0;
     $scope.totalLikes = 0;
+    $scope.totalPeople = 0;
     $scope.isShowlistPeople = false;
     $scope.finishResultList = [];
   };

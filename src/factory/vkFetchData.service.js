@@ -211,9 +211,9 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           }).reduce(function (previousValue, currentItem) {
             return previousValue.concat(currentItem);
           });
-          console.log('preResultData', preResultData);
           resultList.push(preResultData);
           setTimeout(function () {
+            deferred.notify(preResultData.length);
             getData();
           }, 600);
         });
