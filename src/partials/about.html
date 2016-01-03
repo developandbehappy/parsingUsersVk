@@ -17,6 +17,12 @@
         </select>
     </div>
 </div>
-<div class="listPeople">
-
+<br>
+<div class="loadingStats" ng-if="showloadingStats">
+    Всего постов: <span class="label label-primary">{{totalPost}}</span>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    Всего лайков: <span class="label label-primary">{{totalLikes}}</span>
 </div>
+<div class="listPeople"></div>

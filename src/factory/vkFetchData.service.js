@@ -1,3 +1,7 @@
+var postItem = function () {
+
+};
+
 vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
   return {
     fetchWallData: function (groupId, postsSize, streamCount) {
@@ -12,7 +16,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         }
       };
       var vkScriptRequestList = [];
-      var arrData = [];
+      var resultList = [];
       for (var i = 0; i < postsLength; i += 100) {
         var vkScriptRequest = api.wallGet({owner_id: groupId, offset: i});
         vkScriptRequestList.push(vkScriptRequest);
@@ -20,7 +24,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       console.log('vkScriptRequestList', vkScriptRequestList.length);
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
-          deferred.resolve(finishResponseFilter(arrData));
+          deferred.resolve(finishResponseFilter(resultList));
           return false;
         }
         var dataForRequest = vkScriptRequestList.splice(0, streamCount);
@@ -29,29 +33,43 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           code: vkScriptCode
         }).then(function (response) {
           console.log('response', response);
+          var tempResult = [];
           var nextStep = true;
-          response.data.response.map(function (item) {
+          response.data.response.forEach(function (item) {
             var itemSize = _.size(item);
             if (itemSize > 1) {
-              arrData.push(item.splice(1));
+              var data = item.splice(1);
+              tempResult.push(data);
             } else {
               nextStep = false;
             }
           });
+          console.log('tempResult', tempResult);
+          console.log('tempResult', _.size(tempResult));
+          var notifyData = finishNotifyFilter({
+            type: 'temp',
+            data: tempResult
+          });
+          deferred.notify(notifyData);
+          resultList.push(tempResult);
           if (nextStep) {
             getData();
           } else {
-            deferred.resolve(finishResponseFilter(arrData));
+            deferred.resolve(finishResponseFilter(resultList));
             return false;
           }
         });
       };
       getData();
       var finishResponseFilter = function (list) {
+        console.log('list', list);
         var wallDataResult = list.reduce(function (previousValue, currentItem) {
+
+          return previousValue.concat(currentItem);
+        }).reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
         });
-        return wallDataResult.map(function (item) {
+        wallDataResult = wallDataResult.map(function (item) {
           return {
             postId: item.id,
             groupId: item.from_id,
@@ -60,7 +78,21 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
             commentCount: item.comments.count
           };
         });
+        return wallDataResult.splice(0, postsSize);
       };
+      var finishNotifyFilter = function (opt) {
+        var data = opt.data.reduce(function (previousValue, currentItem) {
+          return previousValue.concat(currentItem);
+        });
+        var likesCount = _.sum(data, function (item) {
+          return item.likes.count;
+        });
+        return {
+          postCount: _.size(data),
+          likesCount: likesCount
+        };
+      };
+
       return deferred.promise;
     },
     fetchLikesData: function (groupId, postItemId, likeSize, streamCount) {
@@ -94,6 +126,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           var sortDataArr = response.data.response.filter(function (item) {
             return item.users.length > 0
           });
+
           sortDataArr.map(function (item) {
             arrData.push(item.users);
           });
@@ -110,13 +143,11 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
     },
     fetchPostLikeData: function (wallDataList) {
       var arrDataUsersLike = wallDataList;
-      console.log('arrDataUsersLike.length', arrDataUsersLike.length);
       var deferred = $q.defer();
       var arrDataResult = [];
       var self = this;
       var go = function () {
         if (arrDataUsersLike.length === 0) {
-          console.log('%c RESOLVE!!!', 'background: #000; color: #f90');
           deferred.notify({
             type: 'complete',
             data: arrDataResult
@@ -125,7 +156,6 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           return false;
         }
         var dataForRequest = arrDataUsersLike.splice(0, 1)[0];
-        console.log('dataForRequest', dataForRequest);
         var groupId = dataForRequest.groupId;
         var likeCount = dataForRequest.likeCount;
         var postId = dataForRequest.postId;
@@ -140,18 +170,12 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
             type: 'temp',
             data: tempData
           });
-          console.log('response post: ' + postId, response);
           setTimeout(function () {
             go();
-          }, 250);
+          }, 400);
         });
       };
       go();
-      var finishResponseFilter = function (list) {
-        var wallDataResult = list.reduce(function (previousValue, currentItem) {
-          return previousValue.concat(currentItem);
-        });
-      };
       return deferred.promise;
     }
   }
