@@ -17,6 +17,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         var vkScriptRequest = api.wallGet({owner_id: groupId, offset: i});
         vkScriptRequestList.push(vkScriptRequest);
       }
+      console.log('vkScriptRequestList', vkScriptRequestList.length);
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
           deferred.resolve(arrData);
@@ -76,27 +77,46 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       getData();
       return deferred.promise;
     },
-    fetchPostLikeData: function (arrayData) {
-      var arrDataUsersLike = arrayData;
+    fetchPostLikeData: function (wallDataList) {
+//      debugger;
+      var arrDataUsersLike = wallDataList;
       console.log('arrDataUsersLike.length', arrDataUsersLike.length);
       var deferred = $q.defer();
       var arrDataResult = [];
       var self = this;
-      if(arrDataUsersLike.length === 0) {
-        deferred.resolve(arrDataResult);
-        return false;
-      }
-      var postId = arrDataUsersLike[0].postId;
-      var groupId = arrDataUsersLike[0].groupId;
-      var likeCount = arrDataUsersLike[0].countLike;
-      this.fetchLikesData(groupId, postId, likeCount, 20).then(function (response) {
-        arrDataResult.push(groupId, response);
-        console.log('response post: ' + postId, response);
-        var dataForRequest = arrDataUsersLike.splice(1);
-        setTimeout(function () {
-          self.fetchPostLikeData(dataForRequest);
-        }, 250);
-      });
+      var go = function () {
+        if (arrDataUsersLike.length === 0) {
+          console.log('%c RESOLVE!!!', 'background: #000; color: #f90');
+          deferred.notify({
+            type: 'complete',
+            data: arrDataResult
+          });
+          deferred.resolve(arrDataResult);
+          return false;
+        }
+        var dataForRequest = arrDataUsersLike.splice(0, 1)[0];
+        console.log('dataForRequest', dataForRequest);
+        var groupId = dataForRequest.groupId;
+        var likeCount = dataForRequest.likeCount;
+        var postId = dataForRequest.postId;
+        self.fetchLikesData(groupId, postId, likeCount, 20).then(function (response) {
+          var tempData = {
+            groupId: groupId,
+            postId: postId,
+            response: response
+          };
+          arrDataResult.push(tempData);
+          deferred.notify({
+            type: 'temp',
+            data: tempData
+          });
+          console.log('response post: ' + postId, response);
+          setTimeout(function () {
+            go();
+          }, 250);
+        });
+      };
+      go();
       return deferred.promise;
     }
   }
