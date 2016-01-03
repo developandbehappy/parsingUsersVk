@@ -78,23 +78,25 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
     },
     fetchPostLikeData: function (arrayData) {
       var arrDataUsersLike = arrayData;
+      console.log('arrDataUsersLike.length', arrDataUsersLike.length);
       var deferred = $q.defer();
       var arrDataResult = [];
+      var self = this;
       if(arrDataUsersLike.length === 0) {
         deferred.resolve(arrDataResult);
         return false;
       }
       var postId = arrDataUsersLike[0].postId;
       var groupId = arrDataUsersLike[0].groupId;
-      this.fetchLikesData(groupId, postId, 10000, 20).then(function (response) {
-        arrDataResult.push(groupId, response)
+      var likeCount = arrDataUsersLike[0].countLike;
+      this.fetchLikesData(groupId, postId, likeCount, 20).then(function (response) {
+        arrDataResult.push(groupId, response);
         console.log('response post: ' + postId, response);
+        var dataForRequest = arrDataUsersLike.splice(1);
+        setTimeout(function () {
+          self.fetchPostLikeData(dataForRequest);
+        }, 250);
       });
-      var dataForRequest = arrDataUsersLike.splice(1);
-      var self = this;
-      setTimeout(function () {
-        self.fetchPostLikeData(dataForRequest);
-      }, 400);
       return deferred.promise;
     }
   }
