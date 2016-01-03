@@ -26,5 +26,8 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     return url.then(function (response) {
       return countMax = response.data.response[0];
     });
+  };
+  var postLikeGet = function () {
+
   }
 });

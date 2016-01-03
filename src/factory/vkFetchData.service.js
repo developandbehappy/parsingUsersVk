@@ -37,14 +37,14 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       return deferred.promise;
     },
     fetchLikesData: function (groupId, postItemId, likeSize, streamCount) {
-      var count = 1000;
-      var deferred = $q.defer();
-      var api = {
-        likeGet: function likeGet(opt) {
-          opt = opt || {};
-          return "API.likes.getList(" +
-            "{\"owner_id\": " + opt.owner_id + ", \"offset\": " + opt.offset + "," +
-            " \"item_id\": " + opt.item_id + "," +
+              var count = 1000;
+              var deferred = $q.defer();
+              var api = {
+                likeGet: function likeGet(opt) {
+                  opt = opt || {};
+                  return "API.likes.getList(" +
+                    "{\"owner_id\": " + opt.owner_id + ", \"offset\": " + opt.offset + "," +
+                    " \"item_id\": " + opt.item_id + "," +
             " \"type\": \"post\", \"count\": " + count + "}" + ")";
         }
       };
@@ -64,10 +64,11 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         vkApiService.execute({
           code: vkScriptCode
         }).then(function (response) {
-          console.log('response', response);
-          response.data.response.map(function (item) {
-
-//            arrData.push(item.splice(1));
+          var sortDataArr = response.data.response.filter(function (item) {
+            return item.users.length > 0
+          });
+          sortDataArr.map(function (item) {
+            arrData.push(item.users);
           });
           getData();
         });
