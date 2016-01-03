@@ -3,9 +3,12 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="input-group">
-            <input type="text" class="form-control" ng-model="groupId" placeholder="{{ 'WALL_PARSER' | translate}} " id="getIdWall">
+            <input type="text" class="form-control" ng-model="groupId" placeholder="{{ 'WALL_PARSER' | translate}} "
+                   id="getIdWall">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" ng-click="searchBtnHandler()" type="button" id="searchData">{{ 'GO_SEARCH' | translate}}</button>
+                    <button class="btn btn-default" ng-click="searchBtnHandler()" type="button" id="searchData">{{
+                        'GO_SEARCH' | translate}}
+                    </button>
                 </span>
         </div>
     </div>
@@ -29,4 +32,24 @@
     &nbsp;
     Всего загружено пользователей: <span class="label label-primary">{{totalPeople}}</span>
 </div>
-<div class="listPeople"></div>
+<br>
+<div class="listPeople" ng-if="isShowlistPeople">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>id</th>
+            <th>Likes count</th>
+            <th>Link</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in finishResultList track by $index">
+            <th scope="row">{{$index + 1}}</th>
+            <td>{{item.key}}</td>
+            <td>{{item.value}}</td>
+            <td><a target="_blank" href="https://vk.com/id{{item.key}}">https://vk.com/id{{item.key}}</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
