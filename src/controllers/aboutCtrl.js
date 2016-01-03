@@ -1,6 +1,6 @@
 vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
-//  $scope.groupId = '-74598451';
-  $scope.groupId = '80651295'; // zd
+  $scope.groupId = '256611307';
+//  $scope.groupId = '80651295'; // zd
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
@@ -12,9 +12,11 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
     var idWall = $scope.groupId;
     var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     $scope.showloadingStats = true;
+    var arrAllData = [];
+    var wallDataList = [];
     var fetchPostLikeDataPromise = fetchWallData.then(function (response) {
-//      console.log('response', response);
-      return vkFetchDataService.fetchLikesDataLess1k(response, 23);
+      wallDataList = response;
+      return vkFetchDataService.fetchPostLikeData(response, 23);
     }, function (error) {
       console.log('error', error);
       return false;
@@ -22,9 +24,15 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
       $scope.totalPost = formatNumber($scope.totalPost, notify.postCount);
       $scope.totalLikes = formatNumber($scope.totalLikes, notify.likesCount);
       return false;
-    });
-
-    fetchPostLikeDataPromise.then(function (response) {
+    }).then(function (response) {
+      arrAllData.concat(response);
+      return vkFetchDataService.fetchLikesDataLess1k(wallDataList, 23);
+    }).then(function (response) {
+      console.log('response fetchLikesDataLess1k', response.length);
+      arrAllData.concat(response);
+      return arrAllData;
+    }).then(function (response) {
+      console.log('response allData', response);
       var res = sortLikes(response);
       $scope.finishResultList = res;
       console.log('$scope.finishResultList', $scope.finishResultList);
@@ -59,6 +67,7 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
   };
 //
   var sortLikes = function (list) {
+    console.log('list', list);
     var userLikesResultObject = _.countBy(list);
     var arr = [];
     for (var prop in userLikesResultObject) {

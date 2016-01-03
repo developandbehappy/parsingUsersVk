@@ -140,12 +140,16 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
     },
     fetchPostLikeData: function (wallDataList) {
       var arrDataUsersLike = wallDataList;
+      arrDataUsersLike = arrDataUsersLike.filter(function (item) {
+        var likeSize = item.likeCount;
+        return likeSize > 1000;
+      });
       var deferred = $q.defer();
-      var arrDataResult = [];
+      var resultList = [];
       var self = this;
       var go = function () {
         if (arrDataUsersLike.length === 0) {
-          deferred.resolve(arrDataResult);
+          deferred.resolve(finishResponseFilter(resultList));
           return false;
         }
         var dataForRequest = arrDataUsersLike.splice(0, 1)[0];
@@ -153,29 +157,24 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         var likeCount = dataForRequest.likeCount;
         var postId = dataForRequest.postId;
         self.fetchLikesData(groupId, postId, likeCount, 20).then(function (response) {
-          var tempData = {
-            groupId: groupId,
-            postId: postId,
-            response: response
-          };
-          arrDataResult.push(tempData);
-          var notifyData = finishNotifyFilter({
-            type: 'temp',
-            data: tempData
-          });
-          deferred.notify(notifyData);
+          resultList.push(response);
           setTimeout(function () {
+            deferred.notify(response.length);
             go();
-          }, 400);
+          }, 600);
         });
       };
-      go();
       var finishNotifyFilter = function (opt) {
         return {
           count: _.size(opt.data.response)
         };
       };
-
+      var finishResponseFilter = function (list) {
+        return list.reduce(function (previousValue, currentItem) {
+          return previousValue.concat(currentItem);
+        });
+      };
+      go();
       return deferred.promise;
     },
     fetchLikesDataLess1k: function (postIdList, streamCount) {
