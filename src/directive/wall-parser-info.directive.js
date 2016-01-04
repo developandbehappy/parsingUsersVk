@@ -1,4 +1,4 @@
-vkApp.directive('wallParserInfo', function factory() {
+vkApp.directive('wallParserInfo', function(vkFetchDataService) {
   return {
     restrict: 'E',
     replace: true,
@@ -11,6 +11,9 @@ vkApp.directive('wallParserInfo', function factory() {
         console.log('prevValue', prevValue);
         console.log('currentValue', currentValue);
         console.log('...........');
+      });
+      vkFetchDataService.fetchPageInfo('durov', 'slug').then(function () {
+
       });
     }
   };

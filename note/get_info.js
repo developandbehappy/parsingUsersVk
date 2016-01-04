@@ -1,6 +1,6 @@
 (function () {
 
-  var nameOrId = "mdk";
+  var nameOrId = "durov";
   var type = "slug"; //slug or user or group or page
 
   if (type == "slug") {
@@ -16,10 +16,9 @@
       fields: "photo_max,city,followers_count,counters"
     });
     var friendsRes = API.friends.get({
-      user_id: nameOrId,
-      count: 1
+      user_id: nameOrId
     });
-    var friendsCount = friendsRes.count;
+    var friendsCount = friendsRes.length;
     return {
       type: type,
       id: nameOrId,
@@ -44,8 +43,4 @@
       data: groupRes
     };
   }
-  if (type == "page") {
-    return 123;
-  }
-
 });
