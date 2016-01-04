@@ -21,6 +21,7 @@
     "angular-translate": "~2.8.1",
     "bootstrap": "~3.3.6",
     "jquery": "~2.1.4",
-    "accounting.js": "~0.4.1"
+    "accounting.js": "~0.4.1",
+    "visionmedia-debug": "~2.2.0"
   }
 }

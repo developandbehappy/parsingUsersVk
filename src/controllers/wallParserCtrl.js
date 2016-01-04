@@ -1,5 +1,6 @@
 vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
-  $scope.groupId = '-10639516';
+//  $scope.groupId = '-86002878'; // MUSIC GROUP
+  $scope.groupId = '-33338722'; // https://vk.com/public33338722
 //  $scope.groupId = '80651295'; // zd
 //  $scope.groupId = '339650720';
 //  $scope.groupId = '80651295'; // zd
@@ -12,14 +13,23 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.finishResultList = [];
 //  throw  new Error("dasd");
 //  console.log("---");
+
+//  vkFetchDataService.fetchWallData($scope.groupId, 10000, 20).then(function (wall_res) {
+//    console.log('wallDataRes', wall_res);
+//    return vkFetchDataService.fetchPostLikeData(wall_res, 23);
+//  }).then(function (res) {
+//    console.log('res', res);
+//  });
+
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 100, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10, 20);
     $scope.showloadingStats = true;
     var arrAllData = [];
     var wallDataList = [];
-    var fetchPostLikeDataPromise = fetchWallData.then(function (response) {
+    fetchWallData.then(function (response) {
+      console.log('response', response);
       wallDataList = response;
       return vkFetchDataService.fetchPostLikeData(response, 23);
     }, function (error) {

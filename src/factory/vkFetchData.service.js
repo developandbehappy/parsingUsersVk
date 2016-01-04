@@ -97,6 +97,8 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       return deferred.promise;
     },
     fetchLikesData: function (groupId, postItemId, likeSize, streamCount) {
+      console.log("[fetchLikesData] likeSize->", likeSize);
+      console.log("[fetchLikesData] postItemId->", postItemId);
       var finishResponseFilter = function (list) {
         return list.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
@@ -117,7 +119,13 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       }
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
+          var userList = arrData.reduce(function (previousValue, currentItem) {
+            return previousValue.concat(currentItem);
+          });
+          console.log('[fetchLikesData] finish likeSize->', _.size(userList));
+          console.log("[fetchLikesData] finish postItemId->", postItemId);
           deferred.resolve(finishResponseFilter(arrData));
+          console.log("............................");
           return false;
         }
         var dataForRequest = vkScriptRequestList.splice(0, streamCount);
@@ -144,6 +152,10 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         var likeSize = item.likeCount;
         return likeSize > 1000;
       });
+      var likeCount = _.sum(arrDataUsersLike, function (item) {
+        return item.likeCount;
+      });
+      console.log("[fetchPostLikeData] likeCount->", likeCount);
       var deferred = $q.defer();
       var resultList = [];
       var self = this;
@@ -220,7 +232,6 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           }, 600);
         });
       };
-      getData();
       var finishResponseFilter = function (list) {
         if (list.length === 0) {
           return false;
@@ -229,6 +240,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           return previousValue.concat(currentItem);
         });
       };
+      getData();
       return deferred.promise;
     }
   }
