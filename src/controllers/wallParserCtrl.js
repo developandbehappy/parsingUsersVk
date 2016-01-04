@@ -1,4 +1,8 @@
 vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
+  var log = debug('vkApp:wallParser');
+
+  log('hello from wall parser');
+
 //  $scope.groupId = '-86002878'; // MUSIC GROUP
   $scope.groupId = '-33338722'; // https://vk.com/public33338722
 //  $scope.groupId = '80651295'; // zd

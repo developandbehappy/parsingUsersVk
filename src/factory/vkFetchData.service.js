@@ -97,8 +97,10 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       return deferred.promise;
     },
     fetchLikesData: function (groupId, postItemId, likeSize, streamCount) {
-      console.log("[fetchLikesData] likeSize->", likeSize);
-      console.log("[fetchLikesData] postItemId->", postItemId);
+      var log = debug('vkApp:fetchLikesData');
+
+      log("[fetchLikesData] likeSize->", likeSize);
+      log("[fetchLikesData] postItemId->", postItemId);
       var finishResponseFilter = function (list) {
         return list.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
@@ -122,10 +124,10 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           var userList = arrData.reduce(function (previousValue, currentItem) {
             return previousValue.concat(currentItem);
           });
-          console.log('[fetchLikesData] finish likeSize->', _.size(userList));
-          console.log("[fetchLikesData] finish postItemId->", postItemId);
+          log('[fetchLikesData] finish likeSize->', _.size(userList));
+          log("[fetchLikesData] finish postItemId->", postItemId);
           deferred.resolve(finishResponseFilter(arrData));
-          console.log("............................");
+          log("............................");
           return false;
         }
         var dataForRequest = vkScriptRequestList.splice(0, streamCount);
