@@ -1,6 +1,6 @@
-vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
-  $scope.groupId = '339650720';
-//  $scope.groupId = '80651295'; // zd
+vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
+//  $scope.groupId = '339650720';
+  $scope.groupId = '80651295'; // zd
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
