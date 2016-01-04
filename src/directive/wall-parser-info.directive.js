@@ -2,7 +2,7 @@ vkApp.directive('wallParserInfo', function factory() {
   return {
     restrict: 'E',
     replace: true,
-    template: '<div>TEST123</div>',
+    templateUrl: '/src/partials/wall-parser/wall-parser-info.html',
     scope: {
       control: '='
     },
