@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="input-group">
-            <input type="text" class="form-control" ng-model="groupId" placeholder="{{ 'WALL_PARSER' | translate}} "
+            <input type="text" class="form-control" ng-model="vkLink" placeholder="{{ 'WALL_PARSER' | translate}} "
                    id="getIdWall">
                 <span class="input-group-btn">
                     <button class="btn btn-default"
@@ -24,14 +24,10 @@
     </div>
 </div>
 <br>
-<div class="loadingStats" ng-if="showloadingStats">
+<div class="loadingStats">
     <div class="row">
         <div class="col-xs-7">
-            тут будет инфа о группе
-            <br>
-            тут будет инфа о группе
-            <br>
-            тут будет инфа о группе
+            <wall-parser-info control="vkLink"></wall-parser-info>
         </div>
         <div class="col-xs-3">
             <table class="table wallParser-stats-table">
