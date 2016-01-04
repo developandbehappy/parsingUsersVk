@@ -28,14 +28,14 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     $scope.showloadingStats = true;
     var arrAllData = [];
     var wallDataList = [];
     fetchWallData.then(function (response) {
       console.log('response', response);
       wallDataList = response;
-      return vkFetchDataService.fetchPostLikeData(response, 23);
+      return vkFetchDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 23);
     }, function (error) {
       console.log('error', error);
       return false;
@@ -44,14 +44,15 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
       $scope.totalLikes = formatNumber($scope.totalLikes, notify.likesCount);
       return false;
     }).then(function (response) {
-      arrAllData.concat(response);
-      return vkFetchDataService.fetchLikesDataLess1k(wallDataList, 23);
+//      debugger;
+      arrAllData = arrAllData.concat(response);
+      return vkFetchDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 23);
     }).then(function (response) {
-      console.log('response.length', response.length);
-      return arrAllData.concat(response);
-    }).then(function (response) {
-      var res = sortLikes(response);
-      $scope.finishResultList = res;
+      arrAllData = arrAllData.concat(response);
+      return arrAllData;
+    }).then(function (finisResponseForSort) {
+//      debugger;
+      $scope.finishResultList = sortLikes(finisResponseForSort);
       $scope.isShowlistPeople = true;
     }, function (error) {
 
@@ -96,7 +97,7 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
     var result = _.sortBy(arr, function (item) {
       return -item.value;
     });
-    return result.slice(0, 100);
+    return result.slice(0, 300);
   };
 //
 //  console.log('userLikesResult', _.countBy(userLikesResult));

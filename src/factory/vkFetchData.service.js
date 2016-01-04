@@ -185,7 +185,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       };
       var finishResponseFilter = function (list) {
         if (list.length === 0) {
-          return false;
+          return [];
         }
         return list.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
@@ -195,11 +195,14 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       return deferred.promise;
     },
     fetchLikesDataLess1k: function (postIdList, streamCount) {
+      var log = debug('vkApp:fetchLikesDataLess1k');
+      log('postIdList->', postIdList);
+      var deferred = $q.defer();
       var postList = postIdList.filter(function (item) {
         var likeSize = item.likeCount;
         return likeSize > 0 && likeSize <= 1000;
       });
-      var deferred = $q.defer();
+      log('post_size->', _.size(postList));
       var vkScriptRequestList = [];
       var resultList = [];
       postList.forEach(function (item) {
@@ -236,7 +239,7 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       };
       var finishResponseFilter = function (list) {
         if (list.length === 0) {
-          return false;
+          return [];
         }
         return list.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
