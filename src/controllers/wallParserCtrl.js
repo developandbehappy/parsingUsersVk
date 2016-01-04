@@ -4,11 +4,12 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   log('hello from wall parser');
 
 //  $scope.groupId = '-86002878'; // MUSIC GROUP
-  $scope.groupId = '-33338722'; // https://vk.com/public33338722
+//  $scope.groupId = '-33338722'; // https://vk.com/public33338722
 //  $scope.groupId = '80651295'; // zd
 //  $scope.groupId = '339650720';
 //  $scope.groupId = '80651295'; // zd
 //  $scope.groupId = '16930784'; // zd
+  $scope.groupId = '-10639516'; // MDK
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
@@ -28,7 +29,7 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 100, 20);
     $scope.showloadingStats = true;
     var arrAllData = [];
     var wallDataList = [];
