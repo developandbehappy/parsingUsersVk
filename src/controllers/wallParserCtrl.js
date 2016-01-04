@@ -8,8 +8,8 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
 //  $scope.groupId = '80651295'; // zd
 //  $scope.groupId = '339650720';
 //  $scope.groupId = '80651295'; // zd
-//  $scope.groupId = '16930784'; // zd
-  $scope.groupId = '-10639516'; // MDK
+  $scope.groupId = '16930784'; // zd
+//  $scope.groupId = '-10639516'; // MDK
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
@@ -98,7 +98,8 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
     var result = _.sortBy(arr, function (item) {
       return -item.value;
     });
-    return result.slice(0, 300);
+    // get user data
+    return result.slice(0, 100);
   };
 //
 //  console.log('userLikesResult', _.countBy(userLikesResult));
