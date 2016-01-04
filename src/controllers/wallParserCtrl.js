@@ -35,7 +35,7 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 5000, 20);
     $scope.showloadingStats = true;
     $scope.actionSearchButton.disabled = true;
     var arrAllData = [];
