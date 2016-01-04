@@ -1,6 +1,6 @@
 vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
-//  $scope.groupId = '339650720';
-  $scope.groupId = '80651295'; // zd
+  $scope.groupId = '-10639516';
+//  $scope.groupId = '80651295'; // zd
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
@@ -10,7 +10,7 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 100, 20);
     $scope.showloadingStats = true;
     var arrAllData = [];
     var wallDataList = [];
@@ -28,12 +28,11 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
       arrAllData.concat(response);
       return vkFetchDataService.fetchLikesDataLess1k(wallDataList, 23);
     }).then(function (response) {
-//      console.log('response fetchLikesDataLess1k', response.length);
+      console.log('response.length', response.length);
       return arrAllData.concat(response);
     }).then(function (response) {
       var res = sortLikes(response);
       $scope.finishResultList = res;
-      console.log('$scope.finishResultList', $scope.finishResultList);
       $scope.isShowlistPeople = true;
     }, function (error) {
 
