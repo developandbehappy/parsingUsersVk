@@ -1,44 +1,54 @@
 <div class="row">
-    <div>
-        <div ng-if="infoStatus">
-
-            <div ng-if="info.type == 'user'">
-                <div class="col-xs-3"><img style="width: 150px; border-radius: 5px;" src="{{info.data.photo_max}}" alt=""></div>
-                <div class="col-xs-9">
-                    <h3><a target="_blank" href="https://vk.com/id{{info.id}}">{{info.data.first_name}} {{info.data.last_name}}</a></h3>
-                    <table class="table wallParser-stats-table">
-                        <tbody>
-                        <tr>
-                            <td>Друзей:</td>
-                            <td><span class="label label-success">{{info.friendsCount}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>Подписчиков:</td>
-                            <td><span class="label label-success">{{info.data.followers_count}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>Фотографий:</td>
-                            <td><span class="label label-success">{{info.data.counters.photos}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>Видео:</td>
-                            <td><span class="label label-success">{{info.data.counters.videos}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>Аудио:</td>
-                            <td><span class="label label-success">{{info.data.counters.audios}}</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-xs-4"></div>
-
+    <div ng-if="infoStatus">
+        <div ng-if="info.type == 'user'">
+            <div class="col-xs-2">
+                <img style="width: 100px; border-radius: 5px;" ng-src="{{info.data.photo_max}}" alt="">
             </div>
-            <div ng-if="info.type == 'group'">
-                <h3>{{info.data.name}}</h3>
+            <div class="col-xs-6">
+                <h3>
+                    <a target="_blank" href="https://vk.com/id{{info.id}}">
+                        {{info.data.first_name}}
+                        {{info.data.last_name}}
+                    </a>
+                </h3>
+                <table class="table wall-table-info">
+                    <tbody>
+                    <tr>
+                        <td>Подписчиков:</td>
+                        <td><span class="label label-success">{{info.data.followers_count}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Друзей:</td>
+                        <td><span class="label label-success">{{info.friendsCount}}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Фотографий:</td>
+                        <td><span class="label label-success">{{info.data.counters.photos}}</span></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!--<hr>-->
-        <!--<pre>{{info|json}}</pre>-->
+        <div ng-if="info.type == 'group'">
+            <div class="col-xs-2">
+                <img style="width: 100px; border-radius: 5px;" ng-src="{{info.data.photo_big}}" alt="">
+            </div>
+            <div class="col-xs-6">
+                <h3>
+                    <a target="_blank" href="https://vk.com/public{{info.id}}">
+                        {{info.data.name}}
+                    </a>
+                </h3>
+                <table class="table wall-table-info">
+                    <tbody>
+                    <tr>
+                        <td>Подписчиков:</td>
+                        <td><span class="label label-success">{{info.followersCount}}</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+    <!--<pre>{{info|json}}</pre>-->
 </div>

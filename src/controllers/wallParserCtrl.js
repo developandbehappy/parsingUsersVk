@@ -8,7 +8,7 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
 //  $scope.vkLink = '80651295'; // zd
 //  $scope.vkLink = '339650720';
 //  $scope.vkLink = '80651295'; // zd
-  $scope.vkLink = 'durov'; // zd
+  $scope.vkLink = 'mdk'; // zd
 //  $scope.vkLink = '16930784'; // zd
 //  $scope.vkLink = '-10639516'; // MDK
   $scope.showloadingStats = false;

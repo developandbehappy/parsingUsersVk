@@ -99,6 +99,20 @@
     border: none;
     padding: 2px;
 }
+.wall-table-info {
+    /*border: 2px solid #00d6b2;*/
+    position: relative;
+    top: -5px;
+}
+
+.wall-table-info tr {
+    padding: 0;
+}
+
+.wall-table-info > tbody > tr > td {
+    border: none;
+    padding: 2px;
+}
 
 h3 {
     margin: 0;
