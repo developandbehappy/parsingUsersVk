@@ -22,7 +22,9 @@
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.1.1",
     "gulp-jscs": "^3.0.2",
-    "jscs": "^2.7.0"
+    "jscs": "^2.7.0",
+    "lodash": "^3.10.1",
+    "urlencode": "^1.1.0"
   },
   "devDependencies": {}
 }
