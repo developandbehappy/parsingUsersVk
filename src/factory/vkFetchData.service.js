@@ -170,6 +170,9 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         };
       };
       var finishResponseFilter = function (list) {
+        if (list.length === 0) {
+          return false;
+        }
         return list.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
         });
@@ -219,11 +222,13 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       };
       getData();
       var finishResponseFilter = function (list) {
+        if (list.length === 0) {
+          return false;
+        }
         return list.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
         });
       };
-
       return deferred.promise;
     }
   }

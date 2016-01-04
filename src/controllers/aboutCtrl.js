@@ -1,5 +1,5 @@
 vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
-  $scope.groupId = '256611307';
+  $scope.groupId = '339650720';
 //  $scope.groupId = '80651295'; // zd
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
@@ -28,15 +28,12 @@ vkApp.controller('AboutCtrl', function ($scope, $http, $q, vkApiService, vkFetch
       arrAllData.concat(response);
       return vkFetchDataService.fetchLikesDataLess1k(wallDataList, 23);
     }).then(function (response) {
-      console.log('response fetchLikesDataLess1k', response.length);
-      arrAllData.concat(response);
-      return arrAllData;
+//      console.log('response fetchLikesDataLess1k', response.length);
+      return arrAllData.concat(response);
     }).then(function (response) {
-      console.log('response allData', response);
       var res = sortLikes(response);
       $scope.finishResultList = res;
       console.log('$scope.finishResultList', $scope.finishResultList);
-      console.log('res', res);
       $scope.isShowlistPeople = true;
     }, function (error) {
 
