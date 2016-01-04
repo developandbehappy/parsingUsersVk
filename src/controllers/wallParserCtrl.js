@@ -7,6 +7,8 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.totalLikes = 0;
   $scope.totalPeople = 0;
   $scope.finishResultList = [];
+  throw  new Error("dasd");
+  console.log("---");
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
