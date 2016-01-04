@@ -1,4 +1,4 @@
-vkApp.directive('wallParserInfo', function(vkFetchDataService) {
+vkApp.directive('wallParserInfo', function (vkFetchDataService) {
   return {
     restrict: 'E',
     replace: true,
@@ -7,13 +7,16 @@ vkApp.directive('wallParserInfo', function(vkFetchDataService) {
       control: '='
     },
     link: function (scope) {
+      scope.info = false;
+      scope.infoStatus = false;
       scope.$watch('control', function (currentValue, prevValue) {
         console.log('prevValue', prevValue);
         console.log('currentValue', currentValue);
-        console.log('...........');
-      });
-      vkFetchDataService.fetchPageInfo('durov', 'slug').then(function () {
-
+        scope.infoStatus = true;
+        vkFetchDataService.fetchPageInfo(currentValue, 'slug').then(function (res) {
+          console.log('res', res);
+          scope.info = res;
+        });
       });
     }
   };

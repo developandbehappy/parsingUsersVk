@@ -1,1 +1,12 @@
-<h3>test</h3>
+<div>
+    <div ng-if="infoStatus">
+        <div ng-if="info.type == 'user'">
+            <h3>{{info.data.first_name}} {{info.data.last_name}}</h3>
+        </div>
+        <div ng-if="info.type == 'group'">
+            <h3>{{info.data.name}}</h3>
+        </div>
+    </div>
+    <!--<hr>-->
+    <pre>{{info|json}}</pre>
+</div>
