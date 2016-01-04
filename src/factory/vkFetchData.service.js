@@ -247,6 +247,17 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       };
       getData();
       return deferred.promise;
+    },
+    vkFetchUserData: function (arrDataUser) {
+      var userList = arrDataUser.map(function (item) {
+        return item.key;
+      });
+      userList = userList.join(',');
+      return vkApiService.userGet({
+        user_ids: userList
+      }).then(function (response) {
+        return response.data.response;
+      });
     }
   }
 });

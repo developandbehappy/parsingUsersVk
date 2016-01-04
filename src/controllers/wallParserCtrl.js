@@ -98,8 +98,17 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
     var result = _.sortBy(arr, function (item) {
       return -item.value;
     });
-    // get user data
-    return result.slice(0, 100);
+    var dataUsers = [];
+    vkFetchDataService.vkFetchUserData(result.slice(0, 100)).then(function (response) {
+      response.map(function (item) {
+        dataUsers.push({
+          firstName: item.first_name,
+          secondName: item.second_name,
+          id: item.uid
+        });
+      });
+    });
+    console.log('data', dataUsers);
   };
 //
 //  console.log('userLikesResult', _.countBy(userLikesResult));

@@ -28,6 +28,10 @@ vkApp.factory('vkApiService', function ($http) {
       var url = this.buildLink('execute', params, token);
       return $http.get(url);
     },
+    userGet: function (params, token) {
+      var url = this.buildLink('users.get', params, token);
+      return $http.get(url);
+    },
     likesGetList: function (params, token) {
       var url = this.buildLink('likes.getList', params, token);
       return $http.get(url);
