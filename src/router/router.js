@@ -4,9 +4,9 @@ vkApp.config(['$routeProvider', function ($routeProvider) {
       templateUrl: '/src/partials/home.html',
       controller: 'HomeCtrl'
     })
-    .when('/about', {
-      templateUrl: '/src/partials/about.html',
-      controller: 'AboutCtrl'
+    .when('/wallParser', {
+      templateUrl: '/src/partials/wallParser.html',
+      controller: 'wallParserCtrl'
     })
     .otherwise({
       redirectTo: '/'

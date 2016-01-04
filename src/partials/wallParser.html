@@ -1,4 +1,4 @@
-<h1>{{ 'ABOUT_TITLE' | translate }}</h1>
+<h1>{{ 'PARSER_TITLE' | translate }}</h1>
 <hr>
 <div class="row">
     <div class="col-lg-8">
@@ -22,15 +22,15 @@
 </div>
 <br>
 <div class="loadingStats" ng-if="showloadingStats">
-    Всего постов: <span class="label label-primary">{{totalPost}}</span>
+    {{ 'COUNT_POST' | translate }} <span class="label label-primary">{{totalPost}}</span>
     &nbsp;
     &nbsp;
     &nbsp;
-    Всего лайков: <span class="label label-primary">{{totalLikes}}</span>
+    {{ 'COUNT_LIKE' | translate }} <span class="label label-primary">{{totalLikes}}</span>
     &nbsp;
     &nbsp;
     &nbsp;
-    Всего загружено пользователей: <span class="label label-primary">{{totalPeople}}</span>
+    {{ 'COUNT_DOWNLOAD' | translate }} <span class="label label-primary">{{totalPeople}}</span>
 </div>
 <br>
 <div class="listPeople" ng-if="isShowlistPeople">
@@ -38,9 +38,9 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>id</th>
-            <th>Likes count</th>
-            <th>Link</th>
+            <th>{{ 'ID_USER' | translate }}</th>
+            <th>{{ 'COUNT_LIKES_BY_USER' | translate }}</th>
+            <th>{{ 'LINK_USER' | translate }}</th>
         </tr>
         </thead>
         <tbody>
