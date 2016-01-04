@@ -6,7 +6,10 @@
             <input type="text" class="form-control" ng-model="groupId" placeholder="{{ 'WALL_PARSER' | translate}} "
                    id="getIdWall">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" ng-click="searchBtnHandler()" type="button" id="searchData">{{
+                    <button class="btn btn-default"
+                            ng-click="searchBtnHandler()"
+                            ng-disabled="actionSearchButton.disabled"
+                            type="button" id="searchData">{{
                         'GO_SEARCH' | translate}}
                     </button>
                 </span>
@@ -22,17 +25,51 @@
 </div>
 <br>
 <div class="loadingStats" ng-if="showloadingStats">
-    {{ 'COUNT_POST' | translate }} <span class="label label-primary">{{totalPost}}</span>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    {{ 'COUNT_LIKE' | translate }} <span class="label label-primary">{{totalLikes}}</span>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    {{ 'COUNT_DOWNLOAD' | translate }} <span class="label label-primary">{{totalPeople}}</span>
+    <div class="row">
+        <div class="col-xs-7">
+            тут будет инфа о группе
+            <br>
+            тут будет инфа о группе
+            <br>
+            тут будет инфа о группе
+        </div>
+        <div class="col-xs-3">
+            <table class="table wallParser-stats-table">
+                <tbody>
+                <tr>
+                    <td>{{ 'COUNT_POST' | translate }}</td>
+                    <td><span class="label label-primary">{{totalPost}}</span></td>
+                </tr>
+                <tr>
+                    <td>{{ 'COUNT_LIKE' | translate }}</td>
+                    <td><span class="label label-primary">{{totalLikes}}</span></td>
+                </tr>
+                <tr>
+                    <td>{{ 'COUNT_DOWNLOAD' | translate }}</td>
+                    <td><span class="label label-primary">{{totalPeople}}</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-2">
+            <div class="btn-group" uib-dropdown>
+                <button id="single-button"
+                        type="button"
+                        class="btn btn-primary"
+                        uib-dropdown-toggle
+                        ng-disabled="actionDownloadButton.disabled">
+                    Скачать результаты <span class="caret"></span>
+                </button>
+                <ul class="uib-dropdown-menu pull-right" role="menu" aria-labelledby="single-button">
+                    <li role="menuitem"><a href="#">Скачать все в <b>.csv</b></a></li>
+                    <li role="menuitem"><a href="#">Скачать все в <b>.txt</b></a></li>
+                    <li role="menuitem"><a href="#">Скачать топ 100 <b>.csv</b></a></li>
+                    <li role="menuitem"><a href="#">Скачать топ 100 <b>.txt</b></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-<br>
 <div class="listPeople" ng-if="isShowlistPeople">
     <table class="table">
         <thead>
@@ -58,3 +95,5 @@
         </tbody>
     </table>
 </div>
+<br>
+

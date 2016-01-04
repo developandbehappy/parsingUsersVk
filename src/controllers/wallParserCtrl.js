@@ -12,6 +12,12 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
 //  $scope.groupId = '-10639516'; // MDK
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
+  $scope.actionSearchButton = {
+    disabled: false
+  };
+  $scope.actionDownloadButton = {
+    disabled: true
+  };
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
   $scope.totalPeople = 0;
@@ -31,6 +37,7 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
     var idWall = $scope.groupId;
     var fetchWallData = vkFetchDataService.fetchWallData(idWall, 100, 20);
     $scope.showloadingStats = true;
+    $scope.actionSearchButton.disabled = true;
     var arrAllData = [];
     var wallDataList = [];
     fetchWallData.then(function (response) {
@@ -79,6 +86,8 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
       });
       $scope.finishResultList = top100;
       $scope.isShowlistPeople = true;
+      $scope.actionDownloadButton.disabled = false;
+      $scope.actionSearchButton.disabled = false;
     })
   };
 
