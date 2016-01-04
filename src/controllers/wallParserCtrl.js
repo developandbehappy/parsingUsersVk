@@ -1,14 +1,15 @@
 vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
 //  $scope.groupId = '339650720';
-  $scope.groupId = '80651295'; // zd
+//  $scope.groupId = '80651295'; // zd
+  $scope.groupId = '16930784'; // zd
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
   $scope.totalPeople = 0;
   $scope.finishResultList = [];
-  throw  new Error("dasd");
-  console.log("---");
+//  throw  new Error("dasd");
+//  console.log("---");
   $scope.searchBtnHandler = function () {
     destroyData();
     var idWall = $scope.groupId;
