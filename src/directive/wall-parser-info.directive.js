@@ -9,12 +9,23 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService) {
     link: function (scope) {
       scope.info = false;
       scope.infoStatus = false;
+      var parseLink = function (link) {
+        if (_.isEmpty(link)) {
+          return false;
+        }
+        if (!isNaN(Number(link))) {
+          console.log('number!');
+        } else {
+          console.log('string!');
+        }
+        return link;
+      };
       scope.$watch('control', function (currentValue, prevValue) {
-        console.log('prevValue', prevValue);
-        console.log('currentValue', currentValue);
+        //console.log('currentValue', currentValue);
+        parseLink(currentValue);
         scope.infoStatus = true;
         vkFetchDataService.fetchPageInfo(currentValue, 'slug').then(function (res) {
-          console.log('res', res);
+          //console.log('res', res);
           scope.info = res;
         });
       });
