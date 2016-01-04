@@ -251,7 +251,8 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
     vkFetchUserData: function (list) {
       var userList = list.join(',');
       return vkApiService.userGet({
-        user_ids: userList
+        user_ids: userList,
+        fields: 'photo_100'
       }).then(function (response) {
         return response.data.response;
       });

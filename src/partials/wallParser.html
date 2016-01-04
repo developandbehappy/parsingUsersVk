@@ -46,7 +46,12 @@
         <tbody>
         <tr ng-repeat="item in finishResultList track by $index">
             <th scope="row">{{$index + 1}}</th>
-            <td><a href="https://vk.com/id{{item.key}}" target="_blank">{{item.data.first_name}} {{item.data.last_name}}</a></td>
+            <td>
+                <span><img style="max-width: 25px;" ng-src="{{item.data.photo_100}}" alt=""></span>
+                <a href="https://vk.com/id{{item.key}}" target="_blank">
+                    {{item.data.first_name}} {{item.data.last_name}}
+                </a>
+            </td>
             <td>{{item.key}}</td>
             <td>{{item.value}}</td>
         </tr>
