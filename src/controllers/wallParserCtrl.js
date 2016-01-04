@@ -53,8 +53,12 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
       return arrAllData;
     }).then(function (finisResponseForSort) {
 //      debugger;
-      $scope.finishResultList = sortLikes(finisResponseForSort);
-      $scope.isShowlistPeople = true;
+      var sortData = sortLikes(finisResponseForSort);
+      var top100 = sortData.slice(0, 100);
+      var dataForUserRequest = top100.map(function (item) {
+        return item.key;
+      });
+      return $q.all([vkFetchDataService.vkFetchUserData(dataForUserRequest), top100]);
     }, function (error) {
 
     }, function (notify) {
@@ -62,7 +66,20 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
         return false;
       }
       $scope.totalPeople = formatNumber($scope.totalPeople, notify);
-    });
+    }).then(function (resultList) {
+      var responseVkList = resultList[0];
+      var top100 = resultList[1];
+      top100.map(function (item) {
+        var vkId = parseInt(item.key);
+        var data = responseVkList.filter(function (item) {
+          return item.uid === vkId;
+        });
+        item.data = data[0];
+        return item;
+      });
+      $scope.finishResultList = top100;
+      $scope.isShowlistPeople = true;
+    })
   };
 
   var destroyData = function () {
@@ -95,20 +112,9 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
         });
       }
     }
-    var result = _.sortBy(arr, function (item) {
+    return _.sortBy(arr, function (item) {
       return -item.value;
     });
-    var dataUsers = [];
-    vkFetchDataService.vkFetchUserData(result.slice(0, 100)).then(function (response) {
-      response.map(function (item) {
-        dataUsers.push({
-          firstName: item.first_name,
-          secondName: item.second_name,
-          id: item.uid
-        });
-      });
-    });
-    console.log('data', dataUsers);
   };
 //
 //  console.log('userLikesResult', _.countBy(userLikesResult));

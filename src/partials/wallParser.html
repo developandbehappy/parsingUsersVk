@@ -46,9 +46,9 @@
         <tbody>
         <tr ng-repeat="item in finishResultList track by $index">
             <th scope="row">{{$index + 1}}</th>
+            <td><a href="https://vk.com/id{{item.key}}" target="_blank">{{item.data.first_name}} {{item.data.last_name}}</a></td>
             <td>{{item.key}}</td>
             <td>{{item.value}}</td>
-            <td><a target="_blank" href="https://vk.com/id{{item.key}}">https://vk.com/id{{item.key}}</a></td>
         </tr>
         </tbody>
     </table>
