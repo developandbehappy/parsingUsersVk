@@ -1,4 +1,4 @@
-<h1>{{ 'PARSER_TITLE' | translate }}</h1>
+<h1>{{ 'PARSER_TITLE' | translate }} vk.com</h1>
 <hr>
 <div class="row">
     <div class="col-lg-8">
@@ -58,13 +58,13 @@
                         class="btn btn-primary"
                         uib-dropdown-toggle
                         ng-disabled="actionDownloadButton.disabled">
-                    Скачать результаты <span class="caret"></span>
+                    {{ 'DOWNLOAD_PARSER' | translate }} <span class="caret"></span>
                 </button>
                 <ul class="uib-dropdown-menu pull-right" role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a href="#">Скачать все в <b>.csv</b></a></li>
-                    <li role="menuitem"><a href="#">Скачать все в <b>.txt</b></a></li>
-                    <li role="menuitem"><a href="#">Скачать топ 100 <b>.csv</b></a></li>
-                    <li role="menuitem"><a href="#">Скачать топ 100 <b>.txt</b></a></li>
+                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_CSV_100' | translate }} <b>.csv</b></a></li>
+                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_CSV_ALL' | translate }} <b>.csv</b></a></li>
+                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_TXT_100' | translate }} <b>.txt</b></a></li>
+                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_TXT_ALL' | translate }} <b>.txt</b></a></li>
                 </ul>
             </div>
         </div>
@@ -75,9 +75,9 @@
         <thead>
         <tr>
             <th>#</th>
+            <th>{{ 'LINK_USER' | translate }}</th>
             <th>{{ 'ID_USER' | translate }}</th>
             <th>{{ 'COUNT_LIKES_BY_USER' | translate }}</th>
-            <th>{{ 'LINK_USER' | translate }}</th>
         </tr>
         </thead>
         <tbody>

@@ -1,6 +1,6 @@
 vkApp.config(['$translateProvider', function ($translateProvider) {
   $translateProvider.translations('en', {
-    'PARSER_TITLE': 'Wall parsing in vk',
+    'PARSER_TITLE': 'Wall parsing in',
     'HOME_TITLE': 'Home',
     'LIKE_SEARCH': 'Likes',
     'REPOSTS_SEARCH': 'Reposts',
@@ -12,11 +12,19 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'COUNT_DOWNLOAD': 'Download likes',
     'ID_USER': 'id user',
     'COUNT_LIKES_BY_USER': 'count like',
-    'LINK_USER': 'link user'
+    'LINK_USER': 'link user',
+    'DOWNLOAD_PARSER': 'Download result data',
+    'DOWNLOAD_PARSER_CSV_100': 'Download first 100-th results in',
+    'DOWNLOAD_PARSER_CSV_ALL': 'Download all result in',
+    'DOWNLOAD_PARSER_TXT_100': 'Download first 100-th results in',
+    'DOWNLOAD_PARSER_TXT_ALL': 'Download all result in',
+    'HOME_LINK': 'Home',
+    'WALL_PARSER_LINK': 'Wall parser'
+
   });
 
   $translateProvider.translations('ru', {
-    'PARSER_TITLE': 'Парсинг стены в вконтакте',
+    'PARSER_TITLE': 'Парсинг стены',
     'HOME_TITLE': 'Домой',
     'LIKE_SEARCH': 'Лайки',
     'REPOSTS_SEARCH': 'Репосты',
@@ -28,7 +36,14 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'COUNT_DOWNLOAD': 'Загружено',
     'ID_USER': 'id-пользователя',
     'COUNT_LIKES_BY_USER': 'количество лайков',
-    'LINK_USER': 'страница пользователя'
+    'LINK_USER': 'страница пользователя',
+    'DOWNLOAD_PARSER': 'Скачать результат',
+    'DOWNLOAD_PARSER_CSV_100': 'Скачать первые 100 в',
+    'DOWNLOAD_PARSER_CSV_ALL': 'Скачать все в',
+    'DOWNLOAD_PARSER_TXT_100': 'Скачать первые 100 в',
+    'DOWNLOAD_PARSER_TXT_ALL': 'Скачать все в',
+    'HOME_LINK': 'Главная',
+    'WALL_PARSER_LINK': 'Парсинг стены'
   });
 
   $translateProvider.preferredLanguage('en');
