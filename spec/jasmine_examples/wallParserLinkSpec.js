@@ -2,92 +2,84 @@ var _ = require('lodash');
 
 describe("wallParserLinkSpec", function () {
   var parseLink = function (link) {
+    link = link.toLowerCase();
+    var validateNic = function (item) {
+      var validateReplaceRes = item.replace(/[\w|_|.]+/, '');
+      return validateReplaceRes.length === 0;
+    };
     var validateReplaceRes = link.replace(/[\w|:|\/|.]+/, '');
     var validateStatus = validateReplaceRes.length === 0;
-    var splitLink = '';
-    var idPage = '';
     if (!validateStatus || _.isEmpty(link)) {
       return {
         validate: false
       }
     }
-    var dataName = {
-      club: 'club',
-      pub: 'public',
-      event: 'event'
+    if (!isNaN(Number(link))) { // если link число
+      var res = Number(link);
+      return {
+        id: res,
+        type: 'user',
+        validate: true
+      }
+    }
+    var pageMap = {
+      club: 'group',
+      public: 'group',
+      event: 'group',
+      id: 'user'
     };
-    if (!isNaN(Number(link))) {
-      idPage = parseInt(link);
+    var maybeNames = ['club', 'public', 'id', 'event'];
+    var tempResult = maybeNames.map(function (item) {
+      if (!_.include(link, item)) {
+        return false;
+      }
+      var splitResult = link.split(item);
+      var splitItem = splitResult[1];
+      if (_.isEmpty(splitItem)) {
+        return false
+      }
+      splitItem = Number(splitItem);
+      if (isNaN(splitItem)) {
+        // типо строка, знач ошибка
+        return false;
+      }
       return {
-        id: idPage,
-        type: 'user',
+        id: splitItem,
+        type: pageMap[item],
         validate: true
-      }
+      };
+    }).filter(function (item) {
+      return _.isObject(item);
+    });
+    if (!_.isEmpty(tempResult)) {
+      return _.first(tempResult);
     }
-    if (_.include(link, 'id')) {
-      splitLink = link.split('id');
-      idPage = parseInt(splitLink[1]);
+    var domainList = ['vk.com', 'vk.ru', 'vkontakte.ru'];
+    var tempDomainResult = domainList.map(function (item) {
+      var splitValue = item + "/";
+      if (!_.include(link, splitValue)) {
+        return false;
+      }
+      var splitResult = link.split(splitValue);
+      var splitItem = splitResult[1];
+      if (_.isEmpty(splitItem)) {
+        return false
+      }
+      if (!validateNic(splitItem)) {
+        return false;
+      }
       return {
-        id: idPage,
-        type: 'user',
-        validate: true
-      }
-    }
-
-    if (_.include(link, '::') || _.include(link, '__')) {
-      return {
-        validate: false
-      }
-    }
-
-    for (var key in dataName) {
-      if (dataName.hasOwnProperty(key)) {
-        if (_.include(link, dataName[key])) {
-          splitLink = link.split(dataName[key]);
-          idPage = parseInt(splitLink[1]);
-          if (idPage === '') {
-            return {
-              id: key,
-              type: 'slug',
-              validate: true
-            }
-          } else if (!idPage) {
-            return {
-              id: key + splitLink[1],
-              type: 'slug',
-              validate: true
-            }
-          } else {
-            return {
-              id: idPage,
-              type: 'group',
-              validate: true
-            }
-          }
-        }
-      }
-    }
-    if (_.include(link, 'vk.com/')) {
-      splitLink = link.split('vk.com/');
-      idPage = splitLink[1];
-      return {
-        id: idPage,
+        id: splitItem,
         type: 'slug',
         validate: true
-      }
-    } else if (_.include(link, 'vkontakte.ru/')) {
-      splitLink = link.split('vkontakte.ru/');
-      idPage = splitLink[1];
-      return {
-        id: idPage,
-        type: 'slug',
-        validate: true
-      }
-    } else if(_.include(link, ':')) {
-      return {
-        validate: false
-      }
-    } else {
+      };
+    }).filter(function (item) {
+      return _.isObject(item);
+    });
+    if (!_.isEmpty(tempDomainResult)) {
+      return _.first(tempDomainResult);
+    }
+    if (validateNic(link)) {
       return {
         id: link,
         type: 'slug',
@@ -95,7 +87,7 @@ describe("wallParserLinkSpec", function () {
       }
     }
     return {
-      validate: true
+      validate: false
     }
   };
   var validateFalse = {
@@ -227,6 +219,20 @@ describe("wallParserLinkSpec", function () {
       validate: true
     });
   });
+  it("vk.com/clubA", function () {
+    expect(parseLink('clubA')).toEqual({
+      id: 'cluba',
+      type: 'slug',
+      validate: true
+    });
+  });
+  it("vk.com/Club", function () {
+    expect(parseLink('vk.com/Club')).toEqual({
+      id: 'club',
+      type: 'slug',
+      validate: true
+    });
+  });
 
   it("https://vk.com/d%123", function () {
     expect(parseLink('https://vk.com/d%123')).toEqual(validateFalse);
@@ -257,5 +263,8 @@ describe("wallParserLinkSpec", function () {
   });
   it("vk.com/club::", function () {
     expect(parseLink('vk.com/club::')).toEqual(validateFalse);
+  });
+  it("vk.com/#club", function () {
+    expect(parseLink('vk.com/#club')).toEqual(validateFalse);
   });
 });
