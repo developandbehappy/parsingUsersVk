@@ -14,17 +14,16 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService) {
           return false;
         }
         if (!isNaN(Number(link))) {
-          console.log('number!');
+          return 'user'
         } else {
-          console.log('string!');
+          return 'slug'
         }
-        return link;
       };
       scope.$watch('control', function (currentValue, prevValue) {
         //console.log('currentValue', currentValue);
-        parseLink(currentValue);
+//        parseLink(currentValue);
         scope.infoStatus = true;
-        vkFetchDataService.fetchPageInfo(currentValue, 'slug').then(function (res) {
+        vkFetchDataService.fetchPageInfo(currentValue, parseLink(currentValue)).then(function (res) {
           //console.log('res', res);
           scope.info = res;
         });
