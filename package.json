@@ -4,7 +4,7 @@
   "description": "The dev angular",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./run-test.js"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,12 @@
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.1.1",
     "gulp-jscs": "^3.0.2",
+    "jasmine": "^2.4.1",
     "jscs": "^2.7.0",
     "lodash": "^3.10.1",
     "urlencode": "^1.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jasmine-spec-reporter": "^2.4.0"
+  }
 }
