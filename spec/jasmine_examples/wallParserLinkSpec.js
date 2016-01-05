@@ -16,7 +16,6 @@ describe("wallParserLinkSpec", function () {
       pub: 'public',
       event: 'event'
     };
-
     if (!isNaN(Number(link))) {
       idPage = parseInt(link);
       return {
@@ -34,7 +33,6 @@ describe("wallParserLinkSpec", function () {
         validate: true
       }
     }
-
     for (key in dataName) {
       if (_.include(link, dataName[key])) {
         splitLink = link.split(dataName[key]);
@@ -60,7 +58,6 @@ describe("wallParserLinkSpec", function () {
         }
       }
     }
-
     if (_.include(link, 'vk.com/')) {
       splitLink = link.split('vk.com/');
       idPage = splitLink[1];
