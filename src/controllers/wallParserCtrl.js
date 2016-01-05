@@ -1,6 +1,5 @@
 vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiService, vkFetchDataService) {
   var log = debug('vkApp:wallParser');
-
   log('hello from wall parser');
   $scope.vkLink = 'https://vk.com/id256611307'; // ALLAH
   var finishResultList = [];
@@ -152,7 +151,9 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
       };
     });
     var csvResult = Papa.unparse(top100);
-    console.log('csvResult', csvResult);
+    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "report_top100.csv");
+
   };
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
