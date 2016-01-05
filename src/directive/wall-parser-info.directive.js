@@ -15,6 +15,9 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService) {
         }
         var groupLink = urlPage;
         var typePage = 'slug';
+        if(!isNaN(Number(urlPage))) {
+          typePage = 'user';
+        }
         console.log('groupLink', groupLink);
         if (urlPage.indexOf('id') + 1) {
           console.log('id found!');
