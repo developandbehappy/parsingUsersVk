@@ -33,27 +33,29 @@ describe("wallParserLinkSpec", function () {
         validate: true
       }
     }
-    for (key in dataName) {
-      if (_.include(link, dataName[key])) {
-        splitLink = link.split(dataName[key]);
-        idPage = parseInt(splitLink[1]);
-        if (idPage === '') {
-          return {
-            id: key,
-            type: 'slug',
-            validate: true
-          }
-        } else if (!idPage) {
-          return {
-            id: key + splitLink[1],
-            type: 'slug',
-            validate: true
-          }
-        } else {
-          return {
-            id: idPage,
-            type: 'group',
-            validate: true
+    for (var key in dataName) {
+      if (dataName.hasOwnProperty(key)){
+        if (_.include(link, dataName[key])) {
+          splitLink = link.split(dataName[key]);
+          idPage = parseInt(splitLink[1]);
+          if (idPage === '') {
+            return {
+              id: key,
+              type: 'slug',
+              validate: true
+            }
+          } else if (!idPage) {
+            return {
+              id: key + splitLink[1],
+              type: 'slug',
+              validate: true
+            }
+          } else {
+            return {
+              id: idPage,
+              type: 'group',
+              validate: true
+            }
           }
         }
       }
