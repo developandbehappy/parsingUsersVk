@@ -11,7 +11,12 @@ describe("wallParserLinkSpec", function () {
         validate: false
       }
     }
-    var dataName = {};
+    var dataName = {
+      club: 'club',
+      pub: 'public',
+      event: 'event'
+    };
+
     if (!isNaN(Number(link))) {
       idPage = parseInt(link);
       return {
@@ -20,7 +25,7 @@ describe("wallParserLinkSpec", function () {
         validate: true
       }
     }
-    else if (_.include(link, 'id')) {
+    if (_.include(link, 'id')) {
       splitLink = link.split('id');
       idPage = parseInt(splitLink[1]);
       return {
@@ -29,75 +34,34 @@ describe("wallParserLinkSpec", function () {
         validate: true
       }
     }
-    else if (_.include(link, 'club')) {
-      splitLink = link.split('club');
-      idPage = parseInt(splitLink[1]);
-      if (idPage === '') {
-        return {
-          id: 'club',
-          type: 'slug',
-          validate: true
-        }
-      } else if (!idPage) {
-        return {
-          id: 'club' + splitLink[1],
-          type: 'slug',
-          validate: true
-        }
-      } else {
-        return {
-          id: idPage,
-          type: 'group',
-          validate: true
-        }
-      }
-    }
-    else if (_.include(link, 'event')) {
-      splitLink = link.split('event');
-      idPage = parseInt(splitLink[1]);
-      if (idPage === '') {
-        return {
-          id: 'event',
-          type: 'slug',
-          validate: true
-        }
-      } else if (!idPage) {
-        return {
-          id: 'event' + splitLink[1],
-          type: 'slug',
-          validate: true
-        }
-      } else {
-        return {
-          id: idPage,
-          type: 'group',
-          validate: true
+
+    for (key in dataName) {
+      if (_.include(link, dataName[key])) {
+        splitLink = link.split(dataName[key]);
+        idPage = parseInt(splitLink[1]);
+        if (idPage === '') {
+          return {
+            id: key,
+            type: 'slug',
+            validate: true
+          }
+        } else if (!idPage) {
+          return {
+            id: key + splitLink[1],
+            type: 'slug',
+            validate: true
+          }
+        } else {
+          return {
+            id: idPage,
+            type: 'group',
+            validate: true
+          }
         }
       }
     }
-    else if (_.include(link, 'public')) {
-      splitLink = link.split('public');
-      idPage = parseInt(splitLink[1]);
-      if (idPage === '') {
-        return {
-          id: 'public',
-          type: 'slug',
-          validate: true
-        }
-      } else if (!idPage) {
-        return {
-          id: 'public' + splitLink[1],
-          type: 'slug',
-          validate: true
-        }
-      } else {
-        return {
-          id: idPage,
-          type: 'group',
-          validate: true
-        }
-      }
-    } else if (_.include(link, 'vk.com/')) {
+
+    if (_.include(link, 'vk.com/')) {
       splitLink = link.split('vk.com/');
       idPage = splitLink[1];
       return {
@@ -120,7 +84,6 @@ describe("wallParserLinkSpec", function () {
         validate: true
       }
     }
-
     return {
       validate: true
     }
@@ -247,6 +210,13 @@ describe("wallParserLinkSpec", function () {
       validate: true
     });
   });
+  it("vk.comvkontakte.rudurov", function () {
+    expect(parseLink('vk.comvkontakte.rudurov')).toEqual({
+      id: 'vk.comvkontakte.rudurov',
+      type: 'slug',
+      validate: true
+    });
+  });
 
   it("https://vk.com/d%123", function () {
     expect(parseLink('https://vk.com/d%123')).toEqual(validateFalse);
@@ -262,5 +232,17 @@ describe("wallParserLinkSpec", function () {
   });
   it("", function () {
     expect(parseLink('')).toEqual(validateFalse);
+  });
+  it("durov#", function () {
+    expect(parseLink('durov#')).toEqual(validateFalse);
+  });
+  it("du:rov", function () {
+    expect(parseLink('du:rov')).toEqual(validateFalse);
+  });
+  it("duro/v__1", function () {
+    expect(parseLink('duro/v__1')).toEqual(validateFalse);
+  });
+  it("vk.com/durov::", function () {
+    expect(parseLink('vk.com/durov::')).toEqual(validateFalse);
   });
 });

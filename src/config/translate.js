@@ -19,7 +19,10 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'DOWNLOAD_PARSER_TXT_100': 'Download first 100-th results in',
     'DOWNLOAD_PARSER_TXT_ALL': 'Download all result in',
     'HOME_LINK': 'Home',
-    'WALL_PARSER_LINK': 'Wall parser'
+    'WALL_PARSER_LINK': 'Wall parser',
+    'FOLLOWERS_COUNT': 'Count followers:',
+    'FRIENDS_COUNT': 'Count friends:',
+    'PHOTOS_COUNT': 'Count photos'
 
   });
 
@@ -43,7 +46,10 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'DOWNLOAD_PARSER_TXT_100': 'Скачать первые 100 в',
     'DOWNLOAD_PARSER_TXT_ALL': 'Скачать все в',
     'HOME_LINK': 'Главная',
-    'WALL_PARSER_LINK': 'Парсинг стены'
+    'WALL_PARSER_LINK': 'Парсинг стены',
+    'FOLLOWERS_COUNT': 'Количество подписчиков:',
+    'FRIENDS_COUNT': 'Количество друзей:',
+    'PHOTOS_COUNT': 'Количество фотографий'
   });
 
   $translateProvider.preferredLanguage('en');
