@@ -11,6 +11,7 @@ describe("wallParserLinkSpec", function () {
         validate: false
       }
     }
+    var dataName = {};
     if (!isNaN(Number(link))) {
       idPage = parseInt(link);
       return {
@@ -31,35 +32,70 @@ describe("wallParserLinkSpec", function () {
     else if (_.include(link, 'club')) {
       splitLink = link.split('club');
       idPage = parseInt(splitLink[1]);
-      if (!idPage) {
+      if (idPage === '') {
         return {
           id: 'club',
           type: 'slug',
           validate: true
         }
-      }
-      return {
-        id: idPage,
-        type: 'group',
-        validate: true
+      } else if (!idPage) {
+        return {
+          id: 'club' + splitLink[1],
+          type: 'slug',
+          validate: true
+        }
+      } else {
+        return {
+          id: idPage,
+          type: 'group',
+          validate: true
+        }
       }
     }
     else if (_.include(link, 'event')) {
       splitLink = link.split('event');
       idPage = parseInt(splitLink[1]);
-      return {
-        id: idPage,
-        type: 'group',
-        validate: true
+      if (idPage === '') {
+        return {
+          id: 'event',
+          type: 'slug',
+          validate: true
+        }
+      } else if (!idPage) {
+        return {
+          id: 'event' + splitLink[1],
+          type: 'slug',
+          validate: true
+        }
+      } else {
+        return {
+          id: idPage,
+          type: 'group',
+          validate: true
+        }
       }
     }
     else if (_.include(link, 'public')) {
       splitLink = link.split('public');
       idPage = parseInt(splitLink[1]);
-      return {
-        id: idPage,
-        type: 'group',
-        validate: true
+      if (idPage === '') {
+        return {
+          id: 'public',
+          type: 'slug',
+          validate: true
+        }
+      } else if (!idPage) {
+        return {
+          id: 'public' + splitLink[1],
+          type: 'slug',
+          validate: true
+        }
+      } else {
+        return {
+          id: idPage,
+          type: 'group',
+          validate: true
+        }
       }
     } else if (_.include(link, 'vk.com/')) {
       splitLink = link.split('vk.com/');
@@ -124,6 +160,13 @@ describe("wallParserLinkSpec", function () {
     expect(parseLink('https://vk.com/club1')).toEqual({
       id: 1,
       type: 'group',
+      validate: true
+    });
+  });
+  it("https://vk.com/club_test", function () {
+    expect(parseLink('https://vk.com/club_test')).toEqual({
+      id: 'club_test',
+      type: 'slug',
       validate: true
     });
   });
