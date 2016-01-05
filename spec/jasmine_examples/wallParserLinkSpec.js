@@ -69,6 +69,14 @@ describe("wallParserLinkSpec", function () {
         type: 'slug',
         validate: true
       }
+    } else if (_.include(link, 'vkontakte.ru/')) {
+      splitLink = link.split('vkontakte.ru/');
+      idPage = splitLink[1];
+      return {
+        id: idPage,
+        type: 'slug',
+        validate: true
+      }
     } else {
       return {
         id: link,
