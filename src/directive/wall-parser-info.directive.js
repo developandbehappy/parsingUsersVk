@@ -12,6 +12,7 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
       scope.info = false;
       scope.infoStatus = false;
       console.log('scope.searchParams', scope.params);
+      // TODO: fix async request bug and render bug
       scope.$watch('link', function (currentValue, prevValue) {
         scope.params.status = false;
         var result = parseAndValidateVkLink(currentValue);

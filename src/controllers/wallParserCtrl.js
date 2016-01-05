@@ -1,4 +1,4 @@
-vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vkFetchDataService) {
+vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiService, vkFetchDataService) {
   var log = debug('vkApp:wallParser');
 
   log('hello from wall parser');
@@ -37,7 +37,13 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
 
   $scope.searchBtnHandler = function () {
     destroyData();
-    var idWall = $scope.vkLink;
+    var buildIdWall = function (data) {
+      if (data.type === 'user') {
+        return data.id;
+      }
+      return -data.id;
+    };
+    var idWall = buildIdWall($scope.searchParams.data);
     var fetchWallData = vkFetchDataService.fetchWallData(idWall, 100, 20);
     $scope.showloadingStats = true;
     $scope.actionSearchButton.disabled = true;
@@ -130,8 +136,10 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   };
 //
   $scope.$watch('searchParams', function (current) {
-//    console.log('current', current.status);
-  });
+    $scope.actionSearchButton.disabled = !current.status;
+    // TODO: need fix strange bug
+  }, true);
+
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
 //    var countMax = 0;
