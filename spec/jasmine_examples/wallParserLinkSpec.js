@@ -33,8 +33,15 @@ describe("wallParserLinkSpec", function () {
         validate: true
       }
     }
+
+    if (_.include(link, '::') || _.include(link, '__')) {
+      return {
+        validate: false
+      }
+    }
+
     for (var key in dataName) {
-      if (dataName.hasOwnProperty(key)){
+      if (dataName.hasOwnProperty(key)) {
         if (_.include(link, dataName[key])) {
           splitLink = link.split(dataName[key]);
           idPage = parseInt(splitLink[1]);
@@ -75,6 +82,10 @@ describe("wallParserLinkSpec", function () {
         id: idPage,
         type: 'slug',
         validate: true
+      }
+    } else if(_.include(link, ':')) {
+      return {
+        validate: false
       }
     } else {
       return {
@@ -243,5 +254,8 @@ describe("wallParserLinkSpec", function () {
   });
   it("vk.com/durov::", function () {
     expect(parseLink('vk.com/durov::')).toEqual(validateFalse);
+  });
+  it("vk.com/club::", function () {
+    expect(parseLink('vk.com/club::')).toEqual(validateFalse);
   });
 });
