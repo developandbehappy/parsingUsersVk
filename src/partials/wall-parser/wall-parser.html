@@ -27,7 +27,8 @@
 <div class="loadingStats">
     <div class="row">
         <div class="col-xs-7">
-            <wall-parser-info control="vkLink"></wall-parser-info>
+            <wall-parser-info link="vkLink" params="searchParams"></wall-parser-info>
+            <pre>{{searchParams| json}}</pre>
         </div>
         <div class="col-xs-3">
             <h3>Процесс загрузки:</h3>

@@ -2,7 +2,6 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   var log = debug('vkApp:wallParser');
 
   log('hello from wall parser');
-
 //  $scope.vkLink = '-86002878'; // MUSIC GROUP
 //  $scope.vkLink = '-33338722'; // https://vk.com/public33338722
 //  $scope.vkLink = '80651295'; // zd
@@ -11,6 +10,9 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
   $scope.vkLink = 'mdk'; // zd
 //  $scope.vkLink = '16930784'; // zd
 //  $scope.vkLink = '-10639516'; // MDK
+  $scope.searchParams = {
+    status: false
+  };
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.actionSearchButton = {
@@ -127,6 +129,9 @@ vkApp.controller('wallParserCtrl', function ($scope, $http, $q, vkApiService, vk
     });
   };
 //
+  $scope.$watch('searchParams', function (current) {
+//    console.log('current', current.status);
+  });
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
 //    var countMax = 0;

@@ -4,13 +4,16 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
     replace: true,
     templateUrl: '/src/partials/wall-parser/wall-parser-info.html',
     scope: {
-      control: '='
+      link: '=',
+      params: '='
     },
     link: function (scope) {
       var firstInitialize = true;
       scope.info = false;
       scope.infoStatus = false;
-      scope.$watch('control', function (currentValue, prevValue) {
+      console.log('scope.searchParams', scope.params);
+      scope.$watch('link', function (currentValue, prevValue) {
+        scope.params.status = false;
         var result = parseAndValidateVkLink(currentValue);
         if (!result.validate) {
           return false;
@@ -21,11 +24,17 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
             return false;
           }
         }
-        console.log('result', result);
-        scope.infoStatus = true;
         vkFetchDataService.fetchPageInfo(result.id, result.type).then(function (res) {
+          if (!res) {
+            scope.params.data = undefined;
+            scope.infoStatus = false;
+            return false;
+          }
           firstInitialize = false;
+          scope.params.status = true;
+          scope.params.data = res;
           scope.info = res;
+          scope.infoStatus = true;
         });
       });
     }

@@ -262,6 +262,9 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
       return vkApiService.execute({
         code: vkScripts
       }).then(function (response) {
+        if (response.data.error) {
+          return false
+        }
         return response.data.response;
       });
     }
