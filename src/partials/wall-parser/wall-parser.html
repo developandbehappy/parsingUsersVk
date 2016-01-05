@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-xs-7">
             <wall-parser-info link="vkLink" params="searchParams"></wall-parser-info>
-            <pre>{{searchParams| json}}</pre>
+            <!--<pre>{{searchParams| json}}</pre>-->
         </div>
         <div class="col-xs-3">
             <h3>Процесс загрузки:</h3>
@@ -60,10 +60,26 @@
                     {{ 'DOWNLOAD_PARSER' | translate }} <span class="caret"></span>
                 </button>
                 <ul class="uib-dropdown-menu pull-right" role="menu" aria-labelledby="single-button">
-                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_CSV_100' | translate }} <b>.csv</b></a></li>
-                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_CSV_ALL' | translate }} <b>.csv</b></a></li>
-                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_TXT_100' | translate }} <b>.txt</b></a></li>
-                    <li role="menuitem"><a href="#">{{ 'DOWNLOAD_PARSER_TXT_ALL' | translate }} <b>.txt</b></a></li>
+                    <li role="menuitem">
+                        <a ng-click="downloadButtonHandler('csv', 100)">
+                            {{ 'DOWNLOAD_PARSER_CSV_100' | translate }} <b>.csv</b>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a ng-click="downloadButtonHandler('csv')">
+                            {{ 'DOWNLOAD_PARSER_CSV_ALL' | translate }} <b>.csv</b>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a ng-click="downloadButtonHandler('txt', 100)">
+                            {{ 'DOWNLOAD_PARSER_TXT_100' | translate }} <b>.txt</b>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a ng-click="downloadButtonHandler('txt')">
+                            {{ 'DOWNLOAD_PARSER_TXT_ALL' | translate }} <b>.txt</b>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -80,7 +96,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in finishResultList track by $index">
+        <tr ng-repeat="item in finishTop100Result track by $index">
             <th scope="row">{{$index + 1}}</th>
             <td>
                 <span><img style="max-width: 25px;" ng-src="{{item.data.photo_100}}" alt=""></span>

@@ -2,12 +2,13 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
   var log = debug('vkApp:wallParser');
 
   log('hello from wall parser');
-//  $scope.vkLink = '-86002878'; // MUSIC GROUP
+  $scope.vkLink = 'https://vk.com/id256611307'; // ALLAH
+  var finishResultList = [];
 //  $scope.vkLink = '-33338722'; // https://vk.com/public33338722
 //  $scope.vkLink = '80651295'; // zd
 //  $scope.vkLink = '339650720';
 //  $scope.vkLink = '80651295'; // zd
-  $scope.vkLink = 'mdk'; // zd
+//  $scope.vkLink = 'mdk'; // zd
 //  $scope.vkLink = '16930784'; // zd
 //  $scope.vkLink = '-10639516'; // MDK
   $scope.searchParams = {
@@ -70,6 +71,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     }).then(function (finisResponseForSort) {
 //      debugger;
       var sortData = sortLikes(finisResponseForSort);
+      finishResultList = sortData;
       var top100 = sortData.slice(0, 100);
       var dataForUserRequest = top100.map(function (item) {
         return item.key;
@@ -93,7 +95,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
         item.data = data[0];
         return item;
       });
-      $scope.finishResultList = top100;
+      $scope.finishTop100Result = top100;
       $scope.isShowlistPeople = true;
       $scope.actionDownloadButton.disabled = false;
       $scope.actionSearchButton.disabled = false;
@@ -140,6 +142,18 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     // TODO: need fix strange bug
   }, true);
 
+  $scope.downloadButtonHandler = function (type, count) {
+    console.log('type', type);
+    console.log('count', count);
+    var top100 = finishResultList.slice(0, 100).map(function (item) {
+      return {
+        vk_id: item.key,
+        like_count: item.value
+      };
+    });
+    var csvResult = Papa.unparse(top100);
+    console.log('csvResult', csvResult);
+  };
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
 //    var countMax = 0;
