@@ -141,19 +141,28 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     // TODO: need fix strange bug
   }, true);
 
-  $scope.downloadButtonHandler = function (type, count) {
-    console.log('type', type);
-    console.log('count', count);
+  $scope.downloadButtonHandlerCsv100 = function (type, count) {
     var top100 = finishResultList.slice(0, 100).map(function (item) {
       return {
         vk_id: item.key,
         like_count: item.value
       };
     });
+    var idPageParse = $scope.searchParams.data.id;
     var csvResult = Papa.unparse(top100);
     var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "report_top100.csv");
-
+    saveAs(blob, "report_" + idPageParse + "_top100.csv");
+  };
+  $scope.downloadButtonHandlerTxt100 = function (type, count) {
+    var top100 = finishResultList.slice(0, 100).map(function (item) {
+      return {
+        vk_id: item.key
+      };
+    });
+    var idPageParse = $scope.searchParams.data.id;
+    var csvResult = Papa.unparse(top100);
+    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "report_" + idPageParse + "_top100.txt");
   };
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
