@@ -148,14 +148,18 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
   }, true);
 
   $scope.downloadButtonHandler = function (type, count) {
-    var result = '';
-    result = finishResultList.slice(0, count).map(function (item) {
+    var result = [];
+    if (count) {
+      result = result.slice(0, count);
+    }
+    result = result.map(function (item) {
       return type === 'csv' ? {vk_id: item.key, like_count: item.value} : {vk_id: item.key};
     });
     var idPageParse = $scope.searchParams.data.id;
     var csvResult = Papa.unparse(result);
     var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "report" + idPageParse + "." + type);
+    var fileName = "report" + idPageParse + "." + type;
+    saveAs(blob, fileName);
   };
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
