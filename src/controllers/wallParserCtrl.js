@@ -149,20 +149,9 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
 
   $scope.downloadButtonHandler = function (type, count) {
     var result = '';
-    if (type === 'csv') {
-      result = finishResultList.slice(0, count).map(function (item) {
-        return {
-          vk_id: item.key,
-          like_count: item.value
-        };
-      });
-    } else {
-      result = finishResultList.slice(0, count).map(function (item) {
-        return {
-          vk_id: item.key
-        };
-      });
-    }
+    result = finishResultList.slice(0, count).map(function (item) {
+      return type === 'csv' ? {vk_id: item.key, like_count: item.value} : {vk_id: item.key};
+    });
     var idPageParse = $scope.searchParams.data.id;
     var csvResult = Papa.unparse(result);
     var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
