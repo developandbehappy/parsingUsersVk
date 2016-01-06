@@ -147,51 +147,43 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     // TODO: need fix strange bug
   }, true);
 
-  $scope.downloadButtonHandlerCsv100 = function (type, count) {
-    var top100 = finishResultList.slice(0, 100).map(function (item) {
-      return {
-        vk_id: item.key,
-        like_count: item.value
-      };
-    });
+  $scope.downloadButtonHandler = function (type, count) {
+    var result = '';
+    if (type === 'csv') {
+      if (count) {
+        result = finishResultList.slice(0, count).map(function (item) {
+          return {
+            vk_id: item.key,
+            like_count: item.value
+          };
+        });
+      } else {
+        result = finishResultList.slice(0).map(function (item) {
+          return {
+            vk_id: item.key,
+            like_count: item.value
+          };
+        });
+      }
+    } else {
+      if (count) {
+        result = finishResultList.slice(0, count).map(function (item) {
+          return {
+            vk_id: item.key
+          };
+        });
+      } else {
+        result = finishResultList.slice(0).map(function (item) {
+          return {
+            vk_id: item.key
+          };
+        });
+      }
+    }
     var idPageParse = $scope.searchParams.data.id;
-    var csvResult = Papa.unparse(top100);
+    var csvResult = Papa.unparse(result);
     var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "report_" + idPageParse + "_top100.csv");
-  };
-  $scope.downloadButtonHandlerCsvAll = function (type, count) {
-    var finishAllResult = finishResultList.map(function (item) {
-      return {
-        vk_id: item.key,
-        like_count: item.value
-      };
-    });
-    var idPageParse = $scope.searchParams.data.id;
-    var csvResult = Papa.unparse(finishAllResult);
-    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "report_" + idPageParse + "_topAll.csv");
-  };
-  $scope.downloadButtonHandlerTxtAll = function (type, count) {
-    var finishAllResult = finishResultList.map(function (item) {
-      return {
-        vk_id: item.key
-      };
-    });
-    var idPageParse = $scope.searchParams.data.id;
-    var csvResult = Papa.unparse(finishAllResult);
-    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "report_" + idPageParse + "_topAll.txt");
-  };
-  $scope.downloadButtonHandlerTxt100 = function (type, count) {
-    var top100 = finishResultList.slice(0, 100).map(function (item) {
-      return {
-        vk_id: item.key
-      };
-    });
-    var idPageParse = $scope.searchParams.data.id;
-    var csvResult = Papa.unparse(top100);
-    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "report_" + idPageParse + "_top100.txt");
+    saveAs(blob, "report" + idPageParse + "." + type);
   };
 //  console.log('userLikesResult', _.countBy(userLikesResult));
 //  var getLengthPosts = function (groupId) {
