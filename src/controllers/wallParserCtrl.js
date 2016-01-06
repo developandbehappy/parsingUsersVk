@@ -150,35 +150,23 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
   $scope.downloadButtonHandler = function (type, count) {
     var result = '';
     if (type === 'csv') {
-      if (count) {
-        result = finishResultList.slice(0, count).map(function (item) {
-          return {
-            vk_id: item.key,
-            like_count: item.value
-          };
-        });
-      } else {
-        result = finishResultList.slice(0).map(function (item) {
-          return {
-            vk_id: item.key,
-            like_count: item.value
-          };
-        });
-      }
+      result = finishResultList.slice(0, count).map(function (item) {
+        return {
+          vk_id: item.key,
+          like_count: item.value
+        };
+      });
     } else {
-      if (count) {
-        result = finishResultList.slice(0, count).map(function (item) {
-          return {
-            vk_id: item.key
-          };
-        });
-      } else {
-        result = finishResultList.slice(0).map(function (item) {
-          return {
-            vk_id: item.key
-          };
-        });
-      }
+      result = finishResultList.slice(0, count).map(function (item) {
+        return {
+          vk_id: item.key
+        };
+      });
+      result = finishResultList.slice(0).map(function (item) {
+        return {
+          vk_id: item.key
+        };
+      });
     }
     var idPageParse = $scope.searchParams.data.id;
     var csvResult = Papa.unparse(result);
