@@ -35,6 +35,8 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
           scope.params.status = true;
           res.friendsCount = accounting.formatNumber(res.friendsCount, 0, " ");
           res.data.followers_count = accounting.formatNumber(res.data.followers_count, 0, " ");
+          res.followersCount = accounting.formatNumber(res.followersCount, 0, " ");
+          console.log('res', res);
           scope.params.data = res;
           scope.info = res;
           scope.infoStatus = true;
