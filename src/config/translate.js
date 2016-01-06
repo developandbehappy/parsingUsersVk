@@ -24,7 +24,7 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'FRIENDS_COUNT': 'Count friends:',
     'PHOTOS_COUNT': 'Count photos',
     'ALL_POSTS': 'All posts',
-    'PARSER_COUNT_POSTS': 'Count posts',
+    'PARSER_COUNT_POSTS': 'Count posts:',
     'PARSER_TYPE_POSTS': 'Choose type:',
     'PARSER_LINK_PAGE': 'Link search'
 

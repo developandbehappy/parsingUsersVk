@@ -15,15 +15,15 @@
                     <tbody>
                     <tr>
                         <td>{{ 'FOLLOWERS_COUNT' | translate }}</td>
-                        <td><span class="label label-success">{{info.data.followers_count}}</span></td>
+                        <td><span class="label label-success">{{info.data.followers_count | accounting}}</span></td>
                     </tr>
                     <tr>
                         <td>{{ 'FRIENDS_COUNT' | translate }}</td>
-                        <td><span class="label label-success">{{info.friendsCount}}</span></td>
+                        <td><span class="label label-success">{{info.friendsCount | accounting}}</span></td>
                     </tr>
                     <tr>
                         <td>{{ 'PHOTOS_COUNT' | translate }}</td>
-                        <td><span class="label label-success">{{info.data.counters.photos}}</span></td>
+                        <td><span class="label label-success">{{info.data.counters.photos | accounting}}</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -43,7 +43,7 @@
                     <tbody>
                     <tr>
                         <td>Подписчиков:</td>
-                        <td><span class="label label-success">{{info.followersCount}}</span></td>
+                        <td><span class="label label-success">{{info.followersCount | accounting}}</span></td>
                     </tr>
                     </tbody>
                 </table>

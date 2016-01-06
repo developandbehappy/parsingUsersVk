@@ -37,7 +37,6 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
 //  }).then(function (res) {
 //    console.log('res', res);
 //  });
-
   $scope.searchBtnHandler = function () {
     destroyData();
     var buildIdWall = function (data) {
