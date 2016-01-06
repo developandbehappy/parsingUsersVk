@@ -228,6 +228,9 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
           preResultData = preResultData.map(function (item) {
             return item.users;
           }).reduce(function (previousValue, currentItem) {
+            if (!previousValue) {
+              return []
+            }
             return previousValue.concat(currentItem);
           });
           resultList.push(preResultData);

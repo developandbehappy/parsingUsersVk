@@ -44,7 +44,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
       return -data.id;
     };
     var idWall = buildIdWall($scope.searchParams.data);
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 100, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     $scope.showloadingStats = true;
     $scope.actionSearchButton.disabled = true;
     var arrAllData = [];
