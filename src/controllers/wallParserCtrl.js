@@ -1,15 +1,7 @@
 vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiService, vkFetchDataService) {
   var log = debug('vkApp:wallParser');
   log('hello from wall parser');
-  $scope.vkLink = 'https://vk.com/id256611307'; // ALLAH
   var finishResultList = [];
-//  $scope.vkLink = '-33338722'; // https://vk.com/public33338722
-//  $scope.vkLink = '80651295'; // zd
-//  $scope.vkLink = '339650720';
-//  $scope.vkLink = '80651295'; // zd
-//  $scope.vkLink = 'mdk'; // zd
-//  $scope.vkLink = '16930784'; // zd
-//  $scope.vkLink = '-10639516'; // MDK
   $scope.searchParams = {
     status: false
   };
@@ -17,13 +9,21 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
   $scope.isShowlistPeople = false;
   $scope.actionSearchForm = {
     disabled: false
-  }
+  };
   $scope.actionSearchButton = {
     disabled: false
   };
   $scope.actionDownloadButton = {
     disabled: true
   };
+  $scope.parse = {
+    link: '1',
+    type: 'likes',
+    count: '100'
+  };
+  $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
+  //  $scope.parse.link = '80651295'; // Bog
+
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
   $scope.totalPeople = 0;
@@ -31,7 +31,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
 //  throw  new Error("dasd");
 //  console.log("---");
 
-//  vkFetchDataService.fetchWallData($scope.vkLink, 10000, 20).then(function (wall_res) {
+//  vkFetchDataService.fetchWallData($scope.parse.link, 10000, 20).then(function (wall_res) {
 //    console.log('wallDataRes', wall_res);
 //    return vkFetchDataService.fetchPostLikeData(wall_res, 23);
 //  }).then(function (res) {
@@ -47,7 +47,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
       return -data.id;
     };
     var idWall = buildIdWall($scope.searchParams.data);
-    var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
+    var fetchWallData = vkFetchDataService.fetchWallData(idWall, $scope.parse.count, 20);
     $scope.showloadingStats = true;
     $scope.actionSearchButton.disabled = true;
     $scope.actionSearchForm.disabled = true;

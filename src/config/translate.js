@@ -22,7 +22,11 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'WALL_PARSER_LINK': 'Wall parser',
     'FOLLOWERS_COUNT': 'Count followers:',
     'FRIENDS_COUNT': 'Count friends:',
-    'PHOTOS_COUNT': 'Count photos'
+    'PHOTOS_COUNT': 'Count photos',
+    'ALL_POSTS': 'All posts',
+    'PARSER_COUNT_POSTS': 'Count posts',
+    'PARSER_TYPE_POSTS': 'Choose type:',
+    'PARSER_LINK_PAGE': 'Link search'
 
   });
 
@@ -49,7 +53,11 @@ vkApp.config(['$translateProvider', function ($translateProvider) {
     'WALL_PARSER_LINK': 'Парсинг стены',
     'FOLLOWERS_COUNT': 'Количество подписчиков:',
     'FRIENDS_COUNT': 'Количество друзей:',
-    'PHOTOS_COUNT': 'Количество фотографий'
+    'PHOTOS_COUNT': 'Количество фотографий',
+    'ALL_POSTS': 'Все посты',
+    'PARSER_COUNT_POSTS': 'Количество постов:',
+    'PARSER_TYPE_POSTS': 'Выберите тип:',
+    'PARSER_LINK_PAGE': 'Ссылка для поиска'
   });
 
   $translateProvider.preferredLanguage('en');
