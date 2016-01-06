@@ -162,11 +162,6 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
           vk_id: item.key
         };
       });
-      result = finishResultList.slice(0).map(function (item) {
-        return {
-          vk_id: item.key
-        };
-      });
     }
     var idPageParse = $scope.searchParams.data.id;
     var csvResult = Papa.unparse(result);
