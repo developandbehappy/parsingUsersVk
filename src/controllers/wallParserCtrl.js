@@ -99,6 +99,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
         return item;
       });
       $scope.finishTop100Result = top100;
+      $scope.finishAllResult = finishResultList;
       $scope.isShowlistPeople = true;
       $scope.actionDownloadButton.disabled = false;
       $scope.actionSearchButton.disabled = false;
@@ -157,6 +158,29 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     var csvResult = Papa.unparse(top100);
     var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
     saveAs(blob, "report_" + idPageParse + "_top100.csv");
+  };
+  $scope.downloadButtonHandlerCsvAll = function (type, count) {
+    var finishAllResult = finishResultList.map(function (item) {
+      return {
+        vk_id: item.key,
+        like_count: item.value
+      };
+    });
+    var idPageParse = $scope.searchParams.data.id;
+    var csvResult = Papa.unparse(finishAllResult);
+    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "report_" + idPageParse + "_topAll.csv");
+  };
+  $scope.downloadButtonHandlerTxtAll = function (type, count) {
+    var finishAllResult = finishResultList.map(function (item) {
+      return {
+        vk_id: item.key
+      };
+    });
+    var idPageParse = $scope.searchParams.data.id;
+    var csvResult = Papa.unparse(finishAllResult);
+    var blob = new Blob([csvResult], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "report_" + idPageParse + "_topAll.txt");
   };
   $scope.downloadButtonHandlerTxt100 = function (type, count) {
     var top100 = finishResultList.slice(0, 100).map(function (item) {
