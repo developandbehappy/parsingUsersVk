@@ -11,7 +11,7 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
       var firstInitialize = true;
       scope.info = false;
       scope.infoStatus = false;
-      console.log('scope.searchParams', scope.params);
+//      console.log('scope.searchParams', scope.params);
       // TODO: fix async request bug and render bug
       scope.$watch('link', function (currentValue, prevValue) {
         scope.params.status = false;
@@ -33,6 +33,8 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
           }
           firstInitialize = false;
           scope.params.status = true;
+          res.friendsCount = accounting.formatNumber(res.friendsCount, 0, " ");
+          res.data.followers_count = accounting.formatNumber(res.data.followers_count, 0, " ");
           scope.params.data = res;
           scope.info = res;
           scope.infoStatus = true;
