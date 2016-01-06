@@ -4,7 +4,7 @@
     <div class="col-lg-8">
         <div class="input-group">
             <input type="text" class="form-control" ng-model="vkLink" placeholder="{{ 'WALL_PARSER' | translate}} "
-                   id="getIdWall">
+                   id="getIdWall" ng-disabled="actionSearchForm.disabled">
                 <span class="input-group-btn">
                     <button class="btn btn-default"
                             ng-click="searchBtnHandler()"

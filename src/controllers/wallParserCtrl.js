@@ -15,6 +15,9 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
   };
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
+  $scope.actionSearchForm = {
+    disabled: false
+  }
   $scope.actionSearchButton = {
     disabled: false
   };
@@ -47,6 +50,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     var fetchWallData = vkFetchDataService.fetchWallData(idWall, 10000, 20);
     $scope.showloadingStats = true;
     $scope.actionSearchButton.disabled = true;
+    $scope.actionSearchForm.disabled = true;
     var arrAllData = [];
     var wallDataList = [];
     fetchWallData.then(function (response) {
@@ -98,6 +102,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
       $scope.isShowlistPeople = true;
       $scope.actionDownloadButton.disabled = false;
       $scope.actionSearchButton.disabled = false;
+      $scope.actionSearchForm.disabled = false;
     })
   };
 
