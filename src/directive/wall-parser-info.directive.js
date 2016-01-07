@@ -1,4 +1,4 @@
-vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidateVkLink) {
+vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidateVkLink, vkFetchLikeDataService) {
   return {
     restrict: 'E',
     replace: true,
@@ -25,7 +25,7 @@ vkApp.directive('wallParserInfo', function (vkFetchDataService, parseAndValidate
             return false;
           }
         }
-        vkFetchDataService.fetchPageInfo(result.id, result.type).then(function (res) {
+        vkFetchLikeDataService.fetchPageInfo(result.id, result.type).then(function (res) {
           if (!res) {
             scope.params.data = undefined;
             scope.infoStatus = false;

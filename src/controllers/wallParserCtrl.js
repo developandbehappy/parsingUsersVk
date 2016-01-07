@@ -1,10 +1,11 @@
-vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiService, vkFetchDataService) {
+vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiService, vkFetchDataService, vkFetchLikeDataService) {
   var log = debug('vkApp:wallParser');
   log('hello from wall parser');
   var finishResultList = [];
   $scope.searchParams = {
     status: false
   };
+
   $scope.showloadingStats = false;
   $scope.isShowlistPeople = false;
   $scope.actionSearchForm = {
@@ -21,6 +22,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     type: 'likes',
     count: '100'
   };
+
   $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
   //  $scope.parse.link = '80651295'; // Bog
 
@@ -55,7 +57,7 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     fetchWallData.then(function (response) {
       console.log('response', response);
       wallDataList = response;
-      return vkFetchDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 23);
+      return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 23);
     }, function (error) {
       console.log('error', error);
       return false;
@@ -64,21 +66,19 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
       $scope.totalLikes = formatNumber($scope.totalLikes, notify.likesCount);
       return false;
     }).then(function (response) {
-//      debugger;
       arrAllData = arrAllData.concat(response);
-      return vkFetchDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 23);
+      return vkFetchLikeDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 23);
     }).then(function (response) {
       arrAllData = arrAllData.concat(response);
       return arrAllData;
     }).then(function (finisResponseForSort) {
-//      debugger;
       var sortData = sortLikes(finisResponseForSort);
       finishResultList = sortData;
       var top100 = sortData.slice(0, 100);
       var dataForUserRequest = top100.map(function (item) {
         return item.key;
       });
-      return $q.all([vkFetchDataService.vkFetchUserData(dataForUserRequest), top100]);
+      return $q.all([vkFetchLikeDataService.vkFetchUserData(dataForUserRequest), top100]);
     }, function (error) {
 
     }, function (notify) {
@@ -125,7 +125,6 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
   };
 //
   var sortLikes = function (list) {
-    console.log('list', list);
     var userLikesResultObject = _.countBy(list);
     var arr = [];
     for (var prop in userLikesResultObject) {
