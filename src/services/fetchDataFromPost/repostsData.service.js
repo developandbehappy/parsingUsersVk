@@ -89,16 +89,13 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
           var resultData = [];
           preResultData = preResultData.map(function (item) {
             item.items.map(function (item) {
-//              console.log('item', item);
+              if (item.to_id.toString()[0] === '-') {
+                return false;
+              }
               resultData.push(item.to_id);
             });
             return resultData;
-          }).reduce(function (previousValue, currentItem) {
-//            console.log('previousValue', previousValue);
-//            console.log('currentItem', currentItem);
-            if (!previousValue) {
-              return []
-            }
+          }).reduce(function (previousValue) {
             return previousValue;
           });
           resultList.push(preResultData);
