@@ -109,7 +109,7 @@ vkApp.factory('vkFetchLikeDataService', function (vkApiService, $q) {
       log('postIdList->', postIdList);
       var deferred = $q.defer();
       var postList = postIdList.filter(function (item) {
-        console.log('item', item);
+//        console.log('item', item);
         var likeSize = item.likeCount;
         return likeSize > 0 && likeSize <= 1000;
       });

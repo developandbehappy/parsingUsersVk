@@ -1,4 +1,4 @@
-vkApp.factory('getRepostsCount', function (vkApiService, $q, vkFetchLikeDataService) {
+vkApp.factory('getRepostsCount', function (vkApiService, $q) {
   var api = {
     repostsGet: function repostsGet(opt) {
       opt = opt || {};
@@ -12,12 +12,11 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkFetchLikeDataServ
       var arrDataUsersRepost = wallDataList;
       arrDataUsersRepost = arrDataUsersRepost.filter(function (item) {
         var repostSize = item.repostCount;
-        return repostSizeSize > 1000;
+        return repostSize > 1000;
       });
       var repostCount = _.sum(arrDataUsersRepost, function (item) {
         return item.repostCount;
       });
-      console.log("[fetchPostRepostData] repostCount->", repostCount);
       var deferred = $q.defer();
       var resultList = [];
       var self = this;
@@ -68,7 +67,6 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkFetchLikeDataServ
       var vkScriptRequestList = [];
       var resultList = [];
       postList.forEach(function (item) {
-        console.log('item', item);
         var vkScriptRequest = api.repostsGet({
           owner_id: item.groupId,
           offset: 0,
@@ -88,13 +86,20 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkFetchLikeDataServ
           code: vkScriptCode
         }).then(function (response) {
           var preResultData = response.data.response;
+          var resultData = [];
           preResultData = preResultData.map(function (item) {
-            return item.users;
+            item.items.map(function (item) {
+//              console.log('item', item);
+              resultData.push(item.to_id);
+            });
+            return resultData;
           }).reduce(function (previousValue, currentItem) {
+//            console.log('previousValue', previousValue);
+//            console.log('currentItem', currentItem);
             if (!previousValue) {
               return []
             }
-            return previousValue.concat(currentItem);
+            return previousValue;
           });
           resultList.push(preResultData);
           setTimeout(function () {

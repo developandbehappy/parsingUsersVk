@@ -1,4 +1,11 @@
-vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiService, vkFetchDataService, vkFetchLikeDataService) {
+vkApp.controller('wallParserCtrl', function ($timeout,
+                                             $scope,
+                                             $http,
+                                             $q,
+                                             vkApiService,
+                                             vkFetchDataService,
+                                             vkFetchLikeDataService,
+                                             getRepostsCount) {
   var log = debug('vkApp:wallParser');
   log('hello from wall parser');
   var finishResultList = [];
@@ -28,6 +35,8 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
 
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
+  $scope.totalReposts = 0;
+  $scope.totalComments = 0;
   $scope.totalPeople = 0;
   $scope.finishResultList = [];
 //  throw  new Error("dasd");
@@ -55,9 +64,14 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
     var arrAllData = [];
     var wallDataList = [];
     fetchWallData.then(function (response) {
-      console.log('response', response);
       wallDataList = response;
-      return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 23);
+      if ($scope.parse.type === 'likes') {
+        return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 23);
+      } else if ($scope.parse.type === 'reposts') {
+        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList), 23);
+      } else {
+        console.log('comments');
+      }
     }, function (error) {
       console.log('error', error);
       return false;
@@ -67,7 +81,13 @@ vkApp.controller('wallParserCtrl', function ($timeout, $scope, $http, $q, vkApiS
       return false;
     }).then(function (response) {
       arrAllData = arrAllData.concat(response);
-      return vkFetchLikeDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 23);
+      if ($scope.parse.type === 'likes') {
+        return vkFetchLikeDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 23);
+      } else if ($scope.parse.type === 'reposts') {
+        return getRepostsCount.fetchRepostsDataLess1k(_.cloneDeep(wallDataList), 23);
+      } else {
+        console.log('comments');
+      }
     }).then(function (response) {
       arrAllData = arrAllData.concat(response);
       return arrAllData;
