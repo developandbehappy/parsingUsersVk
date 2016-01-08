@@ -28,14 +28,15 @@ vkApp.controller('wallParserCtrl', function ($timeout,
   $scope.parse = {
     link: '1',
     type: 'reposts',
-    count: '100'
+    count: '10'
   };
 
 //  $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
   //  $scope.parse.link = '80651295'; // Bog
-    $scope.parse.link = 'https://vk.com/anonbusinessman'; // Bog
+//    $scope.parse.link = 'https://vk.com/anonbusinessman'; // Bog
+    $scope.parse.link = 'https://vk.com/mdk'; // Bog
 
-  
+//  vkResponseService()
 
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
@@ -63,7 +64,7 @@ vkApp.controller('wallParserCtrl', function ($timeout,
       if ($scope.parse.type === 'likes') {
         return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 20);
       } else if ($scope.parse.type === 'reposts') {
-        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList), 20);
+        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList), 5);
       } else {
         console.log('comments');
       }

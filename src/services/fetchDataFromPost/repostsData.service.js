@@ -1,4 +1,7 @@
-vkApp.factory('getRepostsCount', function (vkApiService, $q) {
+vkApp.factory('getRepostsCount', function (vkApiService, $q, vkResponseService) {
+  var TIMEOUT = {
+    RECURSION: 600
+  };
   var api = {
     repostsGet: function repostsGet(opt) {
       opt = opt || {};
@@ -6,6 +9,18 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       var queryString = JSON.stringify(opt);
       return "API.wall.getReposts(" + queryString + ")";
     }
+  };
+  var finishHandlerRepostList = function (list) {
+    return list.reduce(function (prevVal, currentVal) {
+      if (_.isArray(prevVal)) {
+        return prevVal.concat(currentVal.items);
+      }
+      return prevVal.items.concat(currentVal.items);
+    }).filter(function (item) {
+      return Number(item.to_id) > 0;
+    }).map(function (item) {
+      return item.to_id;
+    });
   };
   return {
     /**
@@ -17,9 +32,9 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
      * @returns {*|jQuery.promise|promise.promise|promise|Function|Deferred.promise}
      */
     fetchRepostsData: function (groupId, postItemId, repostsSize, streamCount) {
-      var log = debug('vkApp:fetchLikesData');
-      log("[fetchLikesData] repostsSize->", repostsSize);
-      log("[fetchLikesData] postItemId->", postItemId);
+      var log = debug('vkApp:fetchRepostsData');
+      log("[fetchRepostsData] repostsSize->", repostsSize);
+      log("[fetchRepostsData] postItemId->", postItemId);
       var finishResponseFilter = function (list) {
         return list;
       };
@@ -38,11 +53,8 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       }
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
-          var userList = arrData.reduce(function (previousValue, currentItem) {
-            return currentItem;
-          });
-          log('[fetchLikesData] finish repostsSize->', _.size(userList));
-          log("[fetchLikesData] finish postItemId->", postItemId);
+//          log('[fetchRepostsData] finish repostsSize->', _.size(userList));
+          log("[fetchRepostsData] finish postItemId->", postItemId);
           deferred.resolve(finishResponseFilter(arrData));
           log("............................");
           return false;
@@ -51,16 +63,26 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
         var vkScriptCode = "return [" + dataForRequest.join() + "];";
         vkApiService.execute({
           code: vkScriptCode
-        }).then(function (response) {
-          var responseData = response.data.response;
-          if (!responseData) {
-            return false;
+        }).then(function (serverResponse) {
+          var response = vkResponseService(serverResponse.data);
+          if (response.hasNotError()) {
+            var data = response.getResponse();
+            var tempData = finishHandlerRepostList(data);
+            arrData = tempData;
+          } else {
+            var errorCode = response.getErrorCode();
+            var errorMessage = response.getErrorMessage();
+            log("[fetchRepostsData] errorCode->", errorCode);
+            log("[fetchRepostsData] errorMessage->", errorMessage);
           }
-          var sortData = responseData.map(function (item) {
-            item.items.map(function (item) {
-              arrData.push(item.to_id);
-            });
-          });
+
+//          var responseData = response.data.response;
+//          vkResponseService(response);
+//          var sortData = responseData.map(function (item) {
+//            item.items.map(function (item) {
+//              arrData.push(item.to_id);
+//            });
+//          });
           getData();
         });
       };
@@ -107,7 +129,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
           setTimeout(function () {
             deferred.notify(response.length);
             go();
-          }, 600);
+          }, TIMEOUT.RECURSION);
         });
       };
       var finishNotifyFilter = function (opt) {
@@ -171,25 +193,24 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
         var vkScriptCode = "return [" + dataForRequest.join() + "];";
         vkApiService.execute({
           code: vkScriptCode
-        }).then(function (response) {
-          var preResultData = response.data.response;
-          var resultData = [];
-          preResultData = preResultData.map(function (item) {
-            item.items.map(function (item) {
-              if (item.to_id.toString()[0] === '-') {
-                return false;
-              }
-              resultData.push(item.to_id);
-            });
-            return resultData;
-          }).reduce(function (previousValue) {
-            return previousValue;
-          });
-          resultList.push(preResultData);
+        }).then(function (serverResponse) {
+          var response = vkResponseService(serverResponse.data);
+          var tempData = [];
+          if (response.hasNotError()) {
+            var data = response.getResponse();
+            tempData = finishHandlerRepostList(data);
+          } else {
+            console.log('%c ERROR', 'background: red; color: white');
+            console.log("error_code:", response.getErrorCode());
+            console.log("error_mes:", response.getErrorMessage());
+          }
+          if (!_.isEmpty(tempData)) {
+            resultList.push(tempData);
+          }
           setTimeout(function () {
-            deferred.notify(preResultData.length);
+            deferred.notify(tempData.length);
             getData();
-          }, 600);
+          }, TIMEOUT.RECURSION);
         });
       };
       var finishResponseFilter = function (list) {
