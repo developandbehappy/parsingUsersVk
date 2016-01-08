@@ -13,9 +13,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       log("[fetchLikesData] likeSize->", likeSize);
       log("[fetchLikesData] postItemId->", postItemId);
       var finishResponseFilter = function (list) {
-        return list.reduce(function (previousValue, currentItem) {
-          return previousValue.concat(currentItem);
-        });
+        return list;
       };
       var count = 1000;
       var deferred = $q.defer();
@@ -33,7 +31,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
           var userList = arrData.reduce(function (previousValue, currentItem) {
-            return previousValue.concat(currentItem);
+            return currentItem;
           });
           log('[fetchLikesData] finish likeSize->', _.size(userList));
           log("[fetchLikesData] finish postItemId->", postItemId);
@@ -50,7 +48,10 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
             return item.items.length > 0
           });
           sortDataArr.map(function (item) {
-            arrData.push(item.items);
+            item.items.map(function (item) {
+//              console.log('item', item);
+              arrData.push(item.to_id);
+            });
           });
           getData();
         });
