@@ -8,6 +8,56 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
     }
   };
   return {
+    fetchRepostsData: function (groupId, postItemId, likeSize, streamCount) {
+      var log = debug('vkApp:fetchLikesData');
+      log("[fetchLikesData] likeSize->", likeSize);
+      log("[fetchLikesData] postItemId->", postItemId);
+      var finishResponseFilter = function (list) {
+        return list.reduce(function (previousValue, currentItem) {
+          return previousValue.concat(currentItem);
+        });
+      };
+      var count = 1000;
+      var deferred = $q.defer();
+      var vkScriptRequestList = [];
+      var arrData = [];
+      for (var i = 0; i < likeSize; i += count) {
+        var vkScriptRequest = api.repostsGet({
+          owner_id: groupId,
+          offset: i,
+          count: count,
+          post_id: postItemId
+        });
+        vkScriptRequestList.push(vkScriptRequest);
+      }
+      var getData = function () {
+        if (vkScriptRequestList.length === 0) {
+          var userList = arrData.reduce(function (previousValue, currentItem) {
+            return previousValue.concat(currentItem);
+          });
+          log('[fetchLikesData] finish likeSize->', _.size(userList));
+          log("[fetchLikesData] finish postItemId->", postItemId);
+          deferred.resolve(finishResponseFilter(arrData));
+          log("............................");
+          return false;
+        }
+        var dataForRequest = vkScriptRequestList.splice(0, streamCount);
+        var vkScriptCode = "return [" + dataForRequest.join() + "];";
+        vkApiService.execute({
+          code: vkScriptCode
+        }).then(function (response) {
+          var sortDataArr = response.data.response.filter(function (item) {
+            return item.items.length > 0
+          });
+          sortDataArr.map(function (item) {
+            arrData.push(item.items);
+          });
+          getData();
+        });
+      };
+      getData();
+      return deferred.promise;
+    },
     fetchPostRepostData: function (wallDataList) {
       var arrDataUsersRepost = wallDataList;
       arrDataUsersRepost = arrDataUsersRepost.filter(function (item) {
@@ -30,6 +80,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
         var repostCount = dataForRequest.repostCount;
         var postId = dataForRequest.postId;
         self.fetchRepostsData(groupId, postId, repostCount, 20).then(function (response) {
+//          console.log('response', response);
           resultList.push(response);
           setTimeout(function () {
             deferred.notify(response.length);

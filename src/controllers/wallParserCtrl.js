@@ -26,12 +26,14 @@ vkApp.controller('wallParserCtrl', function ($timeout,
   };
   $scope.parse = {
     link: '1',
-    type: 'likes',
+    type: 'reposts',
     count: '100'
   };
 
-  $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
+//  $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
   //  $scope.parse.link = '80651295'; // Bog
+    $scope.parse.link = 'mdk'; // Bog
+
 
   $scope.totalPost = 0;
   $scope.totalLikes = 0;
