@@ -72,8 +72,15 @@ vkApp.controller('wallParserCtrl', function ($timeout,
       console.log('error', error);
       return false;
     }, function (notify) {
+      console.log('notify', notify);
       $scope.totalPost = formatNumber($scope.totalPost, notify.postCount);
-      $scope.totalLikes = formatNumber($scope.totalLikes, notify.likesCount);
+      if ($scope.parse.type === 'likes') {
+        $scope.totalLikes = formatNumber($scope.totalLikes, notify.likesCount);
+      } else if ($scope.parse.type === 'reposts') {
+        $scope.totalLikes = formatNumber($scope.totalLikes, notify.repostCount);
+      } else {
+        console.log('comments');
+      }
       return false;
     }).then(function (response) {
       arrAllData = arrAllData.concat(response);

@@ -79,12 +79,20 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         var data = opt.data.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
         });
-        var likesCount = _.sum(data, function (item) {
+        var likeCount = _.sum(data, function (item) {
           return item.likes.count;
+        });
+        var repostCount = _.sum(data, function (item) {
+          return item.reposts.count;
+        });
+        var commentCount = _.sum(data, function (item) {
+          return item.comments.count;
         });
         return {
           postCount: _.size(data),
-          likesCount: likesCount
+          likesCount: likeCount,
+          repostCount: repostCount,
+          commentCount: commentCount
         };
       };
       return deferred.promise;
