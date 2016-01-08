@@ -8,9 +8,17 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
     }
   };
   return {
-    fetchRepostsData: function (groupId, postItemId, likeSize, streamCount) {
+    /**
+     * Получает Данные поста и отдает id пользователей, которые поделились записью
+     * @param groupId - id группы.
+     * @param postItemId - id поста.
+     * @param repostsSize - Кол-во репостов у поста
+     * @param streamCount - Кол-во количество потоков за раз от 1 до 25. Рекомендуем 20.
+     * @returns {*|jQuery.promise|promise.promise|promise|Function|Deferred.promise}
+     */
+    fetchRepostsData: function (groupId, postItemId, repostsSize, streamCount) {
       var log = debug('vkApp:fetchLikesData');
-      log("[fetchLikesData] likeSize->", likeSize);
+      log("[fetchLikesData] repostsSize->", repostsSize);
       log("[fetchLikesData] postItemId->", postItemId);
       var finishResponseFilter = function (list) {
         return list;
@@ -19,7 +27,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       var deferred = $q.defer();
       var vkScriptRequestList = [];
       var arrData = [];
-      for (var i = 0; i < likeSize; i += count) {
+      for (var i = 0; i < repostsSize; i += count) {
         var vkScriptRequest = api.repostsGet({
           owner_id: groupId,
           offset: i,
@@ -33,7 +41,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
           var userList = arrData.reduce(function (previousValue, currentItem) {
             return currentItem;
           });
-          log('[fetchLikesData] finish likeSize->', _.size(userList));
+          log('[fetchLikesData] finish repostsSize->', _.size(userList));
           log("[fetchLikesData] finish postItemId->", postItemId);
           deferred.resolve(finishResponseFilter(arrData));
           log("............................");
@@ -60,7 +68,20 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       getData();
       return deferred.promise;
     },
+    /**
+     * Отдает массив с id пользователя которые делились записями где репостов больше 1000
+     * @param wallDataList -  массив данных стены в таком формате
+     * {
+       * commentCount: 0, - Количество комментариев
+       * groupId: 80651295, id страницы
+       * likeCount: 2, Кол-во лайков
+       * postId: 3600, Номер поста, страницы
+       * repostCount: 0, количество репостов
+     * }
+     * @returns {*|jQuery.promise|promise.promise|promise|Function|Deferred.promise}
+     */
     fetchPostRepostData: function (wallDataList) {
+      console.log('wallDataList', wallDataList);
       var arrDataUsersRepost = wallDataList;
       arrDataUsersRepost = arrDataUsersRepost.filter(function (item) {
         var repostSize = item.repostCount;
@@ -106,8 +127,21 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
 
       go();
       return deferred.promise;
-    }
-    ,
+    },
+
+    /**
+     *
+     * @param postIdList -  массив данных стены в таком формате
+     * {
+       * commentCount: 0, - Количество комментариев
+       * groupId: 80651295, id страницы
+       * likeCount: 2, Кол-во лайков
+       * postId: 3600, Номер поста, страницы
+       * repostCount: 0, количество репостов
+     * }
+     * @param streamCount - Кол-во количество потоков за раз от 1 до 25. Рекомендуем 20.
+     * @returns {*|jQuery.promise|promise.promise|promise|Function|Deferred.promise}
+     */
     fetchRepostsDataLess1k: function (postIdList, streamCount) {
       var log = debug('vkApp:fetchRepostsDataLess1k');
       log('postIdList->', postIdList);
