@@ -62,9 +62,9 @@ vkApp.controller('wallParserCtrl', function ($timeout,
     fetchWallData.then(function (response) {
       wallDataList = response;
       if ($scope.parse.type === 'likes') {
-        return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 20);
+        return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList));
       } else if ($scope.parse.type === 'reposts') {
-        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList), 5);
+        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList));
       } else {
         console.log('comments');
       }
@@ -87,7 +87,7 @@ vkApp.controller('wallParserCtrl', function ($timeout,
       if ($scope.parse.type === 'likes') {
         return vkFetchLikeDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 20);
       } else if ($scope.parse.type === 'reposts') {
-        return getRepostsCount.fetchRepostsDataLess1k(_.cloneDeep(wallDataList), 5);
+        return getRepostsCount.fetchRepostsDataLess1k(_.cloneDeep(wallDataList), 20);
       } else {
         console.log('comments');
       }

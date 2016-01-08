@@ -36,12 +36,14 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkResponseService) 
       log("[fetchRepostsData] repostsSize->", repostsSize);
       log("[fetchRepostsData] postItemId->", postItemId);
       var finishResponseFilter = function (list) {
-        return list;
+        return list.reduce(function (prevVal, currentVal) {
+          return prevVal.concat(currentVal);
+        });
       };
       var count = 1000;
+      var finishResultList = [];
       var deferred = $q.defer();
       var vkScriptRequestList = [];
-      var arrData = [];
       for (var i = 0; i < repostsSize; i += count) {
         var vkScriptRequest = api.repostsGet({
           owner_id: groupId,
@@ -53,9 +55,10 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkResponseService) 
       }
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
-//          log('[fetchRepostsData] finish repostsSize->', _.size(userList));
           log("[fetchRepostsData] finish postItemId->", postItemId);
-          deferred.resolve(finishResponseFilter(arrData));
+          log("[fetchRepostsData] finish size->", _.size(finishResultList));
+//          deferred.resolve(finishResponseFilter(finishResultList));
+          deferred.resolve(finishResultList);
           log("............................");
           return false;
         }
@@ -68,7 +71,9 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkResponseService) 
           if (response.hasNotError()) {
             var data = response.getResponse();
             var tempData = finishHandlerRepostList(data);
-            arrData = tempData;
+//            finishResultList.push(tempData);
+            log("[fetchRepostsData] temp size->", _.size(tempData));
+            finishResultList = finishResultList.concat(tempData);
           } else {
             var errorCode = response.getErrorCode();
             var errorMessage = response.getErrorMessage();
@@ -83,6 +88,8 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkResponseService) 
 //              arrData.push(item.to_id);
 //            });
 //          });
+          getData();
+        }, function (err) {
           getData();
         });
       };
@@ -123,7 +130,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q, vkResponseService) 
         var groupId = dataForRequest.groupId;
         var repostCount = dataForRequest.repostCount;
         var postId = dataForRequest.postId;
-        self.fetchRepostsData(groupId, postId, repostCount, 20).then(function (response) {
+        self.fetchRepostsData(groupId, postId, repostCount, 5).then(function (response) {
 //          console.log('response', response);
           resultList.push(response);
           setTimeout(function () {
