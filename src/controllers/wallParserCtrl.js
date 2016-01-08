@@ -5,7 +5,8 @@ vkApp.controller('wallParserCtrl', function ($timeout,
                                              vkApiService,
                                              vkFetchDataService,
                                              vkFetchLikeDataService,
-                                             getRepostsCount) {
+                                             getRepostsCount,
+                                             vkResponseService) {
   var log = debug('vkApp:wallParser');
   log('hello from wall parser');
   var finishResultList = [];
@@ -34,6 +35,7 @@ vkApp.controller('wallParserCtrl', function ($timeout,
   //  $scope.parse.link = '80651295'; // Bog
     $scope.parse.link = 'https://vk.com/anonbusinessman'; // Bog
 
+  
 
   $scope.totalPost = 0;
   $scope.totalLikes = 0;

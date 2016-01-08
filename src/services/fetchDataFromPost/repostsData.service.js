@@ -89,8 +89,6 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       var repostCount = _.sum(arrDataUsersRepost, function (item) {
         return item.repostCount;
       });
-      log('arrDataUsersRepost',arrDataUsersRepost);
-      log('repostCount',repostCount);
       var deferred = $q.defer();
       var resultList = [];
       var self = this;
