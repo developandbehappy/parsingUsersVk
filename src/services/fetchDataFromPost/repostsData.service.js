@@ -57,7 +57,6 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
             return false;
           }
           var sortData = responseData.map(function (item) {
-            console.log('item', item);
             item.items.map(function (item) {
               arrData.push(item.to_id);
             });
@@ -81,7 +80,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
      * @returns {*|jQuery.promise|promise.promise|promise|Function|Deferred.promise}
      */
     fetchPostRepostData: function (wallDataList) {
-      console.log('wallDataList', wallDataList);
+      var log = debug('vkApp:fetchPostRepostData');
       var arrDataUsersRepost = wallDataList;
       arrDataUsersRepost = arrDataUsersRepost.filter(function (item) {
         var repostSize = item.repostCount;
@@ -90,6 +89,8 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       var repostCount = _.sum(arrDataUsersRepost, function (item) {
         return item.repostCount;
       });
+      log('arrDataUsersRepost',arrDataUsersRepost);
+      log('repostCount',repostCount);
       var deferred = $q.defer();
       var resultList = [];
       var self = this;
@@ -112,6 +113,7 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
         });
       };
       var finishNotifyFilter = function (opt) {
+
         return {
           count: _.size(opt.data.response)
         };
@@ -144,12 +146,12 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
      */
     fetchRepostsDataLess1k: function (postIdList, streamCount) {
       var log = debug('vkApp:fetchRepostsDataLess1k');
-      log('postIdList->', postIdList);
       var deferred = $q.defer();
       var postList = postIdList.filter(function (item) {
         var repostSize = item.repostCount;
         return repostSize > 0 && repostSize <= 1000;
       });
+      log('postIdList->', postIdList);
       log('post_size->', _.size(postList));
       var vkScriptRequestList = [];
       var resultList = [];

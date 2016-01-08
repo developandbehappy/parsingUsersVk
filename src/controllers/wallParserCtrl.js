@@ -32,7 +32,7 @@ vkApp.controller('wallParserCtrl', function ($timeout,
 
 //  $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
   //  $scope.parse.link = '80651295'; // Bog
-    $scope.parse.link = 'mdk'; // Bog
+    $scope.parse.link = 'https://vk.com/anonbusinessman'; // Bog
 
 
   $scope.totalPost = 0;
@@ -41,15 +41,6 @@ vkApp.controller('wallParserCtrl', function ($timeout,
   $scope.totalComments = 0;
   $scope.totalPeople = 0;
   $scope.finishResultList = [];
-//  throw  new Error("dasd");
-//  console.log("---");
-
-//  vkFetchDataService.fetchWallData($scope.parse.link, 10000, 20).then(function (wall_res) {
-//    console.log('wallDataRes', wall_res);
-//    return vkFetchDataService.fetchPostLikeData(wall_res, 23);
-//  }).then(function (res) {
-//    console.log('res', res);
-//  });
   $scope.searchBtnHandler = function () {
     destroyData();
     var buildIdWall = function (data) {
@@ -68,9 +59,9 @@ vkApp.controller('wallParserCtrl', function ($timeout,
     fetchWallData.then(function (response) {
       wallDataList = response;
       if ($scope.parse.type === 'likes') {
-        return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 23);
+        return vkFetchLikeDataService.fetchPostLikeData(_.cloneDeep(wallDataList), 20);
       } else if ($scope.parse.type === 'reposts') {
-        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList), 23);
+        return getRepostsCount.fetchPostRepostData(_.cloneDeep(wallDataList), 20);
       } else {
         console.log('comments');
       }
@@ -84,9 +75,9 @@ vkApp.controller('wallParserCtrl', function ($timeout,
     }).then(function (response) {
       arrAllData = arrAllData.concat(response);
       if ($scope.parse.type === 'likes') {
-        return vkFetchLikeDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 23);
+        return vkFetchLikeDataService.fetchLikesDataLess1k(_.cloneDeep(wallDataList), 20);
       } else if ($scope.parse.type === 'reposts') {
-        return getRepostsCount.fetchRepostsDataLess1k(_.cloneDeep(wallDataList), 23);
+        return getRepostsCount.fetchRepostsDataLess1k(_.cloneDeep(wallDataList), 5);
       } else {
         console.log('comments');
       }
