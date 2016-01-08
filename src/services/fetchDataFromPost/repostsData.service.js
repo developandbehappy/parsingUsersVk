@@ -30,11 +30,6 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
       }
       var getData = function () {
         if (vkScriptRequestList.length === 0) {
-          var userList = arrData.reduce(function (previousValue, currentItem) {
-            return currentItem;
-          });
-          log('[fetchLikesData] finish likeSize->', _.size(userList));
-          log("[fetchLikesData] finish postItemId->", postItemId);
           deferred.resolve(finishResponseFilter(arrData));
           log("............................");
           return false;
@@ -44,12 +39,12 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
         vkApiService.execute({
           code: vkScriptCode
         }).then(function (response) {
-          var sortDataArr = response.data.response.filter(function (item) {
-            return item.items.length > 0
-          });
-          sortDataArr.map(function (item) {
+          var responseData = response.data.response;
+          var sortDataArr = responseData.map(function (item) {
             item.items.map(function (item) {
-//              console.log('item', item);
+              if (item.to_id.toString()[0] === '-') {
+                return false;
+              }
               arrData.push(item.to_id);
             });
           });
@@ -80,13 +75,13 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
         var groupId = dataForRequest.groupId;
         var repostCount = dataForRequest.repostCount;
         var postId = dataForRequest.postId;
-        self.fetchRepostsData(groupId, postId, repostCount, 20).then(function (response) {
+        self.fetchRepostsData(groupId, postId, repostCount, 23).then(function (response) {
 //          console.log('response', response);
           resultList.push(response);
           setTimeout(function () {
             deferred.notify(response.length);
             go();
-          }, 600);
+          }, 400);
         });
       };
       var finishNotifyFilter = function (opt) {
@@ -147,8 +142,6 @@ vkApp.factory('getRepostsCount', function (vkApiService, $q) {
               resultData.push(item.to_id);
             });
             return resultData;
-          }).reduce(function (previousValue) {
-            return previousValue;
           });
           resultList.push(preResultData);
           setTimeout(function () {

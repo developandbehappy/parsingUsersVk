@@ -50,7 +50,7 @@ vkApp.factory('vkFetchLikeDataService', function (vkApiService, $q) {
             return item.users.length > 0
           });
           sortDataArr.map(function (item) {
-            console.log('item.users', item.users);
+
             arrData.push(item.users);
           });
           getData();
