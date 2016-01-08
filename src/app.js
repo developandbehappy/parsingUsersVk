@@ -4,3 +4,7 @@ var vkApp = angular.module('vkApp', [
   'ui.bootstrap',
   'LocalStorageModule'
 ]);
+
+//vkApp.run(function (localStorageService) {
+//  localStorageService.set('debug',"*");
+//});
