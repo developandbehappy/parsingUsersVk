@@ -9,6 +9,7 @@ vkApp.factory('vkApiService', function ($http) {
       } else {
         tokenResult = "e6a7fdabe815a97ca64dfc68be83d420f1cb16b955e3d8d202d8c98d25d70372e7eb656645863d6d7f983";
       }
+      
       if (params) {
         for (key in params) {
           if (params.hasOwnProperty(key)) {
