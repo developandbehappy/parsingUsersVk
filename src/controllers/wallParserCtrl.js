@@ -182,17 +182,4 @@ vkApp.controller('wallParserCtrl', function ($timeout,
     var fileName = "report" + idPageParse + "." + type;
     saveAs(blob, fileName);
   };
-//  console.log('userLikesResult', _.countBy(userLikesResult));
-//  var getLengthPosts = function (groupId) {
-//    var countMax = 0;
-//    var url = vkApiService.wallGet({
-//      owner_id: groupId
-//    });
-//    return url.then(function (response) {
-//      return countMax = response.data.response[0];
-//    });
-//  };
-//  var postLikeGet = function () {
-//
-//  }
 });
