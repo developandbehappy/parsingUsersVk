@@ -27,14 +27,14 @@ vkApp.controller('wallParserCtrl', function ($timeout,
   };
   $scope.parse = {
     link: '1',
-    type: 'reposts',
-    count: '10'
+    type: 'likes',
+    count: '10000'
   };
 
 //  $scope.parse.link = 'https://vk.com/id256611307'; // ALLAH
   //  $scope.parse.link = '80651295'; // Bog
 //    $scope.parse.link = 'https://vk.com/anonbusinessman'; // Bog
-    $scope.parse.link = 'https://vk.com/mdk'; // Bog
+    $scope.parse.link = 'https://vk.com/moikrug'; // Bog
 
 //  vkResponseService()
 
@@ -169,11 +169,13 @@ vkApp.controller('wallParserCtrl', function ($timeout,
   }, true);
 
   $scope.downloadButtonHandler = function (type, count) {
-    var result = [];
+    var result = finishResultList;
     if (count) {
+      console.log('count', count);
       result = result.slice(0, count);
     }
     result = result.map(function (item) {
+      console.log('item', item);
       return type === 'csv' ? {vk_id: item.key, like_count: item.value} : {vk_id: item.key};
     });
     var idPageParse = $scope.searchParams.data.id;

@@ -76,6 +76,9 @@ vkApp.factory('vkFetchDataService', function (vkApiService, $q) {
         return wallDataResult.splice(0, postsSize);
       };
       var finishNotifyFilter = function (opt) {
+        if (opt.data.length === '') {
+          return [];
+        }
         var data = opt.data.reduce(function (previousValue, currentItem) {
           return previousValue.concat(currentItem);
         });
